@@ -2,7 +2,6 @@
 using namespace sf;
 Walkground::Walkground(float speed , sf::Vector2f size , sf::Vector2f position)
 {
-	body.setSize(size);
 	ground = 0;
 	delta = 0;
 	this->speed = speed;

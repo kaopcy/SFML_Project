@@ -12,8 +12,8 @@ Player::Player(sf::Texture* texture, sf::Vector2u imageframe, float speed):
 	this->frame.x = (texture->getSize().x / imageframe.x);
 	this->frame.y = (texture->getSize().y / imageframe.y);
 	//player clone
-	player_clone.left = 20.0f;
-	player_clone.top = 20.0f;
+	player_clone.left = 400.0f;
+	player_clone.top = 800.0f;
 	player_clone.width  = currentframe.x;
 	player_clone.height = currentframe.y;
 	hitbox.setFillColor(sf::Color::Transparent);
