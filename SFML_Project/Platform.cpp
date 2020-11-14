@@ -33,20 +33,22 @@ void Platform::Update(float deltatime)
 		dx = 1;
 	}
 	lifetime -= deltatime;
-	if (lifetime <= 0.4)
-	{
-		dy = 3;
-	}
+	
 	{
 
 		if (hitbox.getPosition().y > position.y)
 		{
 			dy = -9;
 		}
-		else if (hitbox.getPosition().y < position.y)
+		else if (hitbox.getPosition().y < position.y or lifetime >= 2)
 		{
 			dy = 0;
 		}
+
+	}
+	if (lifetime <= 0.4)
+	{
+		dy = 3;
 	}
 
 	hitbox.move(speed * dx * deltatime, dy * 200 * deltatime);

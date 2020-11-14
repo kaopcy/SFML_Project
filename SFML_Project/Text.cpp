@@ -21,7 +21,7 @@ void Texteiei::text1(float number , sf::RenderWindow &window , sf::Vector2f posi
     window.draw(Text1);
 }
 
-
+ 
 
 
 

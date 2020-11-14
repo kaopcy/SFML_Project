@@ -15,6 +15,7 @@ public:
 	float lifetime = 5;
 	void stop() { dx = 0; }
 	int speed;
+	
 private:
 	sf::RectangleShape body;
 	int dx = 1;

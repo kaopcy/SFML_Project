@@ -9,10 +9,10 @@
 #include "Text.h"
 #include "Bullet.h"
 #include "Platform.h"
+#include "Enemy.h"
+
 using namespace std;
 using namespace sf;
-
-
 
 ///<Game Value Declaration>///
 int life = 500;
@@ -64,11 +64,25 @@ int main()
 	Player player1(&ptexture, sf::Vector2u(5, 5), 100.0f);
 	Background_move Background_move(&tbackground);
 
-	sf::RectangleShape enemy;
+	sf::Texture Tsmoke;
+	Tsmoke.loadFromFile("Smoke/smoke.png");
+	sf::Sprite smoke;
+	smoke.setTexture(Tsmoke);
+	smoke.setPosition(1900, 0);
+	smoke.setColor(sf::Color::Red);
+
+	//Enemy declaration
+	sf::Texture Tenemy;
+	sf::Texture Texplode;
+	Texplode.loadFromFile("Explode/Explode.png");
+	Tenemy.loadFromFile("Enemy/Enemy2.png");
+	Enemy enemy1(&Texplode , &Tenemy , sf::Vector2u(4,2));
+
+	/*sf::RectangleShape enemy;
 	enemy.setTexture(&marklee);
 	enemy.setSize(sf::Vector2f(86.0f, 202.0f));
 	enemy.setTextureRect(sf::IntRect(0, 0, 86, 202));
-	enemy.setOrigin(enemy.getSize().x / 2, enemy.getSize().y / 2);
+	enemy.setOrigin(enemy.getSize().x / 2, enemy.getSize().y / 2);*/
 
 
 	// declare class for text
@@ -81,14 +95,15 @@ int main()
 	sf::Texture plattexture2;
 	sf::Texture plattexture3;
 	plattexture3.loadFromFile("Platform/Platform3.png");
-	plattexture2.loadFromFile("Platform/Platform2_fix.png");
-	plattexture.loadFromFile("Platform/Platform.png");
+	plattexture2.loadFromFile("Platform/Platform1.png");
+	plattexture.loadFromFile("Platform/Platform2_fix.png");
 
-	Platform platform1(&plattexture, sf::Vector2f(plattexture.getSize().x / 3, plattexture.getSize().y), 20, 300, sf::Vector2f(sec*100, 1000.0f));
-	Platform platform2(&plattexture2, sf::Vector2f(plattexture2.getSize().x / 3, plattexture2.getSize().y), 0, 200, sf::Vector2f(sec*100, 800.0f));
+	Platform platform1(&plattexture, sf::Vector2f(plattexture.getSize().x / 3, plattexture.getSize().y), 0, 300, sf::Vector2f(sec*100, 1000.0f));
+	Platform platform2(&plattexture2, sf::Vector2f(plattexture2.getSize().x / 3, plattexture2.getSize().y), 20, 200, sf::Vector2f(sec*100, 800.0f));
 	Platform platform3(&plattexture3, sf::Vector2f(plattexture3.getSize().x / 3, plattexture3.getSize().y), 20, 500, sf::Vector2f(sec*100, 700.0f));
 	std::vector<Platform> platforms;
-	
+	platforms.push_back(Platform(&plattexture, sf::Vector2f(plattexture.getSize().x / 3, plattexture.getSize().y), 0, 300, sf::Vector2f(randowplatform(player1.getright(), player1.getglobalbound().width), 1000.0f)));
+	platforms.push_back(Platform(&plattexture2, sf::Vector2f(plattexture2.getSize().x / 3, plattexture2.getSize().y), 20, 200, sf::Vector2f(randowplatform(player1.getright(), player1.getglobalbound().width), 800.0f)));
 
 
 	Bullet bullet;
@@ -96,7 +111,7 @@ int main()
 	short int bulletspawntimer = 0;
 	short int platformnum = 0;
 
-	std::vector<RectangleShape> enemies;
+	std::vector<Enemy> enemies;
 	std::vector<Bullet> bullets;
 	bool flag1 = false;
 	///<START GAME LOOP>
@@ -169,12 +184,13 @@ int main()
 
 			if ((int)sec == 1 and flag1 == 0)
 			{
-				platforms.push_back(Platform(platform1));
+				platformnum++;
 				flag1 = true;
 			}
 			if ((int)sec == 4 and flag1 == 1)
 			{
-				platforms.push_back(Platform(platform2));
+				platforms.push_back(Platform(&plattexture2, sf::Vector2f(plattexture2.getSize().x / 3, plattexture2.getSize().y), 20, 200, sf::Vector2f(randowplatform(player1.getright(), player1.getglobalbound().width), 800.0f)));
+				platformnum++;
 				flag1 = false;
 			}
 			for (size_t i = 0; i < platforms.size(); i++)
@@ -186,7 +202,8 @@ int main()
 					{
 						platforms[i].animation = 2;
 					}
-					platforms[i].speed = 70;
+					if(platforms[i].speed > 0)
+					platforms[i].speed -= (5);
 				}
 				if (platforms[i].lifetime <= 0)
 				{
@@ -195,10 +212,10 @@ int main()
 					switch (platformnum % 3)
 					{
 					case 0:
-						platforms.push_back(Platform(&plattexture, sf::Vector2f(plattexture.getSize().x / 3, plattexture.getSize().y), 20, 300, sf::Vector2f(randowplatform(player1.getright(), player1.getglobalbound().width), 1000.0f)));
+						platforms.push_back(Platform(&plattexture, sf::Vector2f(plattexture.getSize().x / 3, plattexture.getSize().y), 0, 300, sf::Vector2f(randowplatform(player1.getright(), player1.getglobalbound().width), 1000.0f)));
 						break;
 					case 1:
-						platforms.push_back(Platform(&plattexture2, sf::Vector2f(plattexture2.getSize().x / 3, plattexture2.getSize().y), 0, 200, sf::Vector2f(randowplatform(player1.getright(), player1.getglobalbound().width), 800.0f)));
+						platforms.push_back(Platform(&plattexture2, sf::Vector2f(plattexture2.getSize().x / 3, plattexture2.getSize().y), 20, 200, sf::Vector2f(randowplatform(player1.getright(), player1.getglobalbound().width), 800.0f)));
 						break; 
 					case 2:
 						platforms.push_back(Platform(&plattexture3, sf::Vector2f(plattexture3.getSize().x / 3, plattexture3.getSize().y), 20, 500, sf::Vector2f(randowplatform(player1.getright(), player1.getglobalbound().width), 700.0f)));
@@ -218,7 +235,7 @@ int main()
 				{
 					///<Right>///
 					if (player1.getright() >= platforms[i].hitbox.getGlobalBounds().left
-						and player1.getright() < platforms[i].hitbox.getGlobalBounds().left + 25
+						and player1.getright() < platforms[i].hitbox.getGlobalBounds().left + 35
 						) {
 						player1.dx = 0.0f;
 						player1.player_clone.left = platforms[i].hitbox.getGlobalBounds().left - player1.player_clone.width;
@@ -226,7 +243,7 @@ int main()
 
 					///<Left>///
 					else if (player1.getleft() <= platforms[i].hitbox.getGlobalBounds().left + platforms[i].hitbox.getGlobalBounds().width
-						and player1.getleft() > platforms[i].hitbox.getGlobalBounds().left + platforms[i].hitbox.getGlobalBounds().width - 25
+						and player1.getleft() > platforms[i].hitbox.getGlobalBounds().left + platforms[i].hitbox.getGlobalBounds().width - 35
 						) {
 						player1.dx = 0.0f;
 						player1.player_clone.left = platforms[i].hitbox.getGlobalBounds().left + platforms[i].hitbox.getGlobalBounds().width;
@@ -248,6 +265,11 @@ int main()
 				
 
 			}
+			if (player1.getbot() > window.getSize().y)
+			{
+				player1.player_clone.top = window.getSize().y - player1.player_clone.height;
+				player1.onground = true;
+			}
 
 			
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space))
@@ -258,7 +280,7 @@ int main()
 					player1.dy = -30;
 				}
 			}
-
+			smoke.move(3, 0);
 			//Update Bullet Direction
 			playercenter = sf::Vector2f(player1.player_clone.left + player1.currentframe.x / 2, player1.player_clone.top + player1.currentframe.y / 2);
 			mouseposition = sf::Vector2f(sf::Mouse::getPosition(window));
@@ -272,40 +294,46 @@ int main()
 
 			if (enemyspawntimer == 10)
 			{
-				enemy.setPosition(sf::Vector2f(rand() % window.getSize().x, 0));
-				enemies.push_back(RectangleShape(enemy));
+				enemy1.hitbox.setPosition(sf::Vector2f(rand() % window.getSize().x, -(enemy1.hitbox.getSize().y)));
+				enemies.push_back(Enemy(enemy1));
 				enemyspawntimer = 0;
 			}
 			//Checkshot
 			for (size_t i = 0; i < enemies.size(); i++)
 			{
+
 				for (size_t k = 0; k < bullets.size(); k++)
 				{
-					if (enemies[i].getGlobalBounds().intersects(bullets[k].shape.getGlobalBounds()))
+					if (enemies[i].hitbox.getGlobalBounds().intersects(bullets[k].shape.getGlobalBounds()) and !enemies[i].dead)
 					{
+						enemies[i].dead = true;
 						enemycount++;
-						enemies.erase(enemies.begin() + i);
 						bullets.erase(bullets.begin() + k);
-						break;
 					}
 				}
+				enemies[i].update(deltatime);
+				if (enemies[i].lifetime <= 0 and enemies[i].dead)
+				{
+					enemies.erase(enemies.begin() + i);
+				}
 			}
+
+
 			//Enemies Out of Bound
 			for (size_t i = 0; i < enemies.size(); i++)
 			{
-				sf::Vector2f enemymovement;
-				enemies[i].setRotation(cos(i));
-				if (enemies[i].getPosition().x + enemies[i].getSize().x / 2.0f > player1.getcenter().x)
-				{
-					enemymovement.x = -1 * deltatime * (rand() % (200 - 100) + 100);
+				if (enemies[i].hitbox.getPosition().x + enemies[i].hitbox.getSize().x / 2.0f > player1.getcenter().x  and !enemies[i].flag) 
+				{ 
+					enemies[i].dx = -1; 
+					enemies[i].flag = true;
 				}
-				else
+				if (enemies[i].hitbox.getPosition().x + enemies[i].hitbox.getSize().x / 2.0f < player1.getcenter().x and !enemies[i].flag)
 				{
-					enemymovement.x = 1 * deltatime * (rand() % (200 - 100) + 100);
+					enemies[i].dx = 1;
+					enemies[i].flag = true;
+				}
 
-				}
-				enemies[i].move(enemymovement.x, 3);
-				if (enemies[i].getPosition().y > 1000)
+				if (enemies[i].hitbox.getPosition().y > 1000)
 				{
 					enemies.erase(enemies.begin() + i);
 				}
@@ -326,10 +354,10 @@ int main()
 			window.clear();
 
 			Background_move.draw(window);
-
 			for (size_t i = 0; i < enemies.size(); i++)
 			{
-				window.draw(enemies[i]);
+				enemies[i].draw(window);
+				enemies[i].drawexplode(window);
 			}
 			for (size_t i = 0; i < bullets.size(); i++)
 			{
@@ -338,10 +366,10 @@ int main()
 			for (size_t i = 0; i < platforms.size(); i++) { platforms[i].Draw(window); }
 			player1.draw(window);
 			//Draw text
-			Text1.text1(randowplatform(player1.getright(), rand() % 2), window, sf::Vector2f(0.0f, 0.0f), (string)"Timerplatform 0: ");
-			Text2.text1(platforms[0].lifetime, window, sf::Vector2f(0.0f, 150.0f), (string)"Timerplatform 1: ");
-			Text3.text1(platforms[0].lifetime, window, sf::Vector2f(1000.0f, 0.0f), (string)"Timerplatform 2: ");
 
+			Text1.text1(randowplatform(player1.getright(), rand() % 2), window, sf::Vector2f(0.0f, 0.0f), (string)"Timerplatform 0: ");
+			Text2.text1(0, window, sf::Vector2f(0.0f, 150.0f), (string)"Timerplatform 1: ");
+			Text3.text1(sec , window, sf::Vector2f(1000.0f, 0.0f), (string)"Timerplatform 2: ");
 			window.display();
 		}
 	}

@@ -18,6 +18,10 @@ private:
 
 };
 
+class Animation
+{
+};
+
 /*millis = elapsed.asMilliseconds();
 void move_player()
 {
