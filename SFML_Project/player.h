@@ -31,6 +31,7 @@ public:
 	sf::Vector2f velocity;
 	sf::Vector2u currentframe;
 	sf::RectangleShape arm;
+
 	bool onground = false;
 	float testspeed = 15.0;
 	float dx, dy;
@@ -39,6 +40,7 @@ public:
 	bool playercollision = false;
 	sf::Vector2f direction;
 	bool faceright;
+	bool openUp = true;
 
 private:
 	sf::Vector2u imageframe;

@@ -23,6 +23,7 @@ float randowplatform(float , float);
 ///<START MAIN>///
 int main()
 {
+	sf::RenderStates state;
 	srand(time(NULL));
 	window.setFramerateLimit(60);
 	window.setVerticalSyncEnabled(false);
@@ -140,10 +141,11 @@ int main()
 				window.close();
 			}
 		}
-
+		
 
 		if (!sf::Keyboard::isKeyPressed(sf::Keyboard::P))
 		{
+			
 			///...<UPDATE GAME VALUE>...
 
 			degree = atan2(mouseposition.y - player1.getcenter().y, mouseposition.x - player1.getcenter().x) * (180 / 3.141);

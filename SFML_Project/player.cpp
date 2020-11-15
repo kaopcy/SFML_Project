@@ -21,6 +21,13 @@ Player::Player(sf::Texture* texture, sf::Vector2u imageframe, float speed):
 	hitbox.setOutlineColor(sf::Color::Red);
 	hitbox.setSize(sf::Vector2f(player_clone.width, player_clone.height));
 
+	arm.setSize(sf::Vector2f(100.0, 500.0));
+	arm.setOutlineColor(sf::Color::Red);
+	arm.setOutlineThickness(1);
+	arm.setOrigin(sf::Vector2f(arm.getSize().x / 2, arm.getSize().y));
+	arm.setFillColor(sf::Color::Transparent);
+	circle.setRadius(11);
+	circle.setFillColor(sf::Color::Red);
 }
 
 Player::~Player()
@@ -30,6 +37,10 @@ Player::~Player()
 
 void Player::update(float delta_player, float ground, float degree)
 {
+	arm.setPosition(getcenter());
+	arm.setRotation(degree + 90);
+
+
 	this->hitbox.setPosition(sf::Vector2f(player_clone.left, player_clone.top));
 	this->delta_player = delta_player;
 	this->velocity.x = (int)dx * delta_player * 1000;
@@ -54,6 +65,8 @@ void Player::draw(sf::RenderWindow& window)
 {
 	window.draw(player);
 	window.draw(hitbox);
+	window.draw(arm);
+	window.draw(circle);
 }
 
 void Player::moveplayer()

@@ -162,6 +162,7 @@
     <ClCompile Include="SFML_Project.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Walkground.cpp" />
+    <ClCompile Include="Weapon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
@@ -172,8 +173,13 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="player.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="Walkground.h" />
+    <ClInclude Include="Weapon.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="SFML_Project.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

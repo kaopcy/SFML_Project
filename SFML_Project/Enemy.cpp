@@ -3,6 +3,7 @@ Enemy::Enemy(sf::Texture * Texplode ,sf::Texture* texture, sf::Vector2u imagefra
 {
 	this->currentframeexplode.x = Texplode->getSize().x / 8;
 	this->currentframeexplode.y = Texplode->getSize().y;
+
 	explosion.setTexture(*Texplode);
 	explosion.setPosition(-4000, -4000);
 	explosion.setScale(1.5, 1.5);
