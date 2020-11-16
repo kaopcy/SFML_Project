@@ -1,10 +1,10 @@
 #include "player.h"
 
-Player::Player(sf::Texture* texture2, sf::Texture* texture, sf::Vector2u imageframe, float speed):
+Player::Player(int playertex ,sf::Vector2u imageframe, float speed):
 	animationframe(0) , dx(0) , dy(0)  , onground(0) , direction(0,0)
 {
-	thp.loadFromFile("hpbar/hpbar.png");
-	hpbar.setFillColor(sf::Color::Red);
+	texturecontrol(playertex);
+	hpbar.setFillColor(sf::Color(67,219,29));
 	hpbar.setOrigin(sf::Vector2f(0, hpbar.getSize().y));
 	hpbar.setPosition(sf::Vector2f(100, 20));
 
@@ -13,14 +13,14 @@ Player::Player(sf::Texture* texture2, sf::Texture* texture, sf::Vector2u imagefr
 	hptexture.setOrigin(sf::Vector2f(0, 0));
 	hptexture.setSize(sf::Vector2f(thp.getSize().x , thp.getSize().y));
 
-	this->player.setTexture(*texture);
+	this->player.setTexture(tplayer);
 	this->imageframe = imageframe;
 	this->testspeed = speed;
 	this->player.setScale(5.0, 5.0);
-	this->currentframe.x = (texture->getSize().x / imageframe.x) * player.getScale().x;
-	this->currentframe.y = (texture->getSize().y / imageframe.y) * player.getScale().x;
-	this->frame.x = (texture->getSize().x / imageframe.x);
-	this->frame.y = (texture->getSize().y / imageframe.y);
+	this->currentframe.x = (tplayer.getSize().x / imageframe.x) * player.getScale().x;
+	this->currentframe.y = (tplayer.getSize().y / imageframe.y) * player.getScale().x;
+	this->frame.x = (tplayer.getSize().x / imageframe.x);
+	this->frame.y = (tplayer.getSize().y / imageframe.y);
 	//player clone
 	player_clone.left = 400.0f;
 	player_clone.top = 800.0f;
@@ -56,7 +56,6 @@ void Player::update(float delta_player, float ground, float degree)
 	this->velocity.x = (int)dx * delta_player * 1000;
 	this->velocity.y = (int)dy * delta_player * 99.8;
 	this->player.setPosition(player_clone.left,player_clone.top);
-	this->degree = degree;
 	this->player.setTextureRect(sf::IntRect (frame.x * animationframe , row  * frame.y , frame.x ,frame.y));
 	offsetanimation += delta_player;
 	if (offsetanimation >= switchtime)
@@ -94,6 +93,16 @@ void Player::moveplayer()
 	if (!onground)
 	{
 		dy += 2;
+	}
+	
+}
+
+void Player::texturecontrol(int playertex)
+{
+	if (playertex == 1)
+	{
+		tplayer.loadFromFile("fox.png");
+		thp.loadFromFile("hpbar/hpbar.png");
 	}
 	
 }

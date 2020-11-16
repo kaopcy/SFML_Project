@@ -4,19 +4,31 @@ class Enemy
 {
 public:
 	sf::RectangleShape hitbox;
-	Enemy(sf::Texture* Texplode , sf::Texture *texture ,sf::Vector2u imageframe);
+	Enemy(int texturenum ,int hp ,sf::Vector2u imageframe);
 	~Enemy();
 	void update(float deltatime);
 	void draw(sf::RenderWindow& window);
 	void drawexplode(sf::RenderWindow& window);
+	float calculateHP(int hp, float sizeX);
+	void texturecontrol(int);
+//Editable vaule
+public:
+	int hp;
+	float lifetime = 0.8;
 
 public:
-	float dx = 1;
-	float dy = 0;
 	bool flag = false;
 	bool dead = false;
-	float lifetime = 0.8;
+	
+	float dy = 0;
+	float dx = 1;
 private:
+	//For declare texture 
+	sf::Texture Etexture;
+	sf::Texture Texplode;
+
+
+	sf::RectangleShape hpRec;
 	sf::Vector2u currentframeexplode;
 	sf::Sprite explosion;
 	sf::Sprite S_enemy;
@@ -30,5 +42,8 @@ private:
 	float offsetenemyspeed = 0;
 	float deltatime_enemy = 0;
 	float animationexplode = 0;
+	float minus = 0;
+	float percent = 100;
+	int hpmax;
 };
 
