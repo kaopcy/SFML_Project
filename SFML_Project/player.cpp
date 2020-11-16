@@ -1,8 +1,18 @@
 #include "player.h"
 
-Player::Player(sf::Texture* texture, sf::Vector2u imageframe, float speed):
+Player::Player(sf::Texture* texture2, sf::Texture* texture, sf::Vector2u imageframe, float speed):
 	animationframe(0) , dx(0) , dy(0)  , onground(0) , direction(0,0)
 {
+	thp.loadFromFile("hpbar/hpbar.png");
+	hpbar.setFillColor(sf::Color::Red);
+	hpbar.setOrigin(sf::Vector2f(0, hpbar.getSize().y));
+	hpbar.setPosition(sf::Vector2f(100, 20));
+
+	this->hptexture.setTexture(&thp);
+	hptexture.setPosition(sf::Vector2f(30, 17));
+	hptexture.setOrigin(sf::Vector2f(0, 0));
+	hptexture.setSize(sf::Vector2f(thp.getSize().x , thp.getSize().y));
+
 	this->player.setTexture(*texture);
 	this->imageframe = imageframe;
 	this->testspeed = speed;
@@ -39,7 +49,7 @@ void Player::update(float delta_player, float ground, float degree)
 {
 	arm.setPosition(getcenter());
 	arm.setRotation(degree + 90);
-
+	hpbar.setSize(sf::Vector2f(hp * 100, 70));
 
 	this->hitbox.setPosition(sf::Vector2f(player_clone.left, player_clone.top));
 	this->delta_player = delta_player;
@@ -66,7 +76,9 @@ void Player::draw(sf::RenderWindow& window)
 	window.draw(player);
 	window.draw(hitbox);
 	window.draw(arm);
-	window.draw(circle);
+	//window.draw(circle);
+	window.draw(hpbar);
+	window.draw(hptexture);
 }
 
 void Player::moveplayer()

@@ -23,6 +23,15 @@ float randowplatform(float , float);
 ///<START MAIN>///
 int main()
 {
+	window.setMouseCursorVisible(false);
+	sf::Sprite cursor;
+	sf::Texture tcursor;
+	tcursor.loadFromFile("cursor.png");
+	cursor.setTexture(tcursor);
+	cursor.setScale(0.04, 0.04);
+	cursor.setOrigin(tcursor.getSize().x / 2, tcursor.getSize().y / 2);
+
+
 	sf::RenderStates state;
 	srand(time(NULL));
 	window.setFramerateLimit(60);
@@ -37,6 +46,9 @@ int main()
 	sf::Clock clock;
 	float deltatime = 0.0f;
 	float offsetYplayer = 0;
+	sf::Texture thp;
+	thp.loadFromFile("fox.png");
+
 
 	//for declare texture
 	sf::Texture ptexture;
@@ -62,7 +74,7 @@ int main()
 	sf::Vector2f velocitybullet;
 
 	//declare movingthing
-	Player player1(&ptexture, sf::Vector2u(5, 5), 100.0f);
+	Player player1(&thp , &ptexture, sf::Vector2u(5, 5), 100.0f);
 	Background_move Background_move(&tbackground);
 
 	sf::Texture Tsmoke;
@@ -118,6 +130,7 @@ int main()
 	///<START GAME LOOP>
 	while (window.isOpen() )
 	{
+		cursor.setPosition(sf::Vector2f(sf::Mouse::getPosition()));
 		deltatime = clock.restart().asSeconds();
 		player1.onground = false;
 		sf::Event evnt;
@@ -320,6 +333,21 @@ int main()
 				}
 			}
 
+			for (size_t i = 0; i < enemies.size(); i++)
+			{
+				if (enemies[i].hitbox.getGlobalBounds().intersects(player1.getglobalbound()) and !enemies[i].dead)
+				{
+					player1.hp--;
+					cout << "hit" << endl;
+					enemies.erase(enemies.begin() + i);
+					if (player1.hp <= 0)
+					{
+						player1.hp = 10;
+					}
+				}
+			}
+
+
 
 			//Enemies Out of Bound
 			for (size_t i = 0; i < enemies.size(); i++)
@@ -354,7 +382,7 @@ int main()
 			///<START DRAWING>///
 
 			window.clear();
-
+			
 			Background_move.draw(window);
 			for (size_t i = 0; i < enemies.size(); i++)
 			{
@@ -368,10 +396,10 @@ int main()
 			for (size_t i = 0; i < platforms.size(); i++) { platforms[i].Draw(window); }
 			player1.draw(window);
 			//Draw text
-
-			Text1.text1(randowplatform(player1.getright(), rand() % 2), window, sf::Vector2f(0.0f, 0.0f), (string)"Timerplatform 0: ");
-			Text2.text1(0, window, sf::Vector2f(0.0f, 150.0f), (string)"Timerplatform 1: ");
-			Text3.text1(sec , window, sf::Vector2f(1000.0f, 0.0f), (string)"Timerplatform 2: ");
+			window.draw(cursor);
+			/*Text1.text1(randowplatform(player1.getright(), rand() % 2), window, sf::Vector2f(0.0f, 0.0f), (string)"Timerplatform 0: ");
+			Text2.text1(player1.hp, window, sf::Vector2f(0.0f, 150.0f), (string)"Timerplatform 1: ");
+			Text3.text1(sec , window, sf::Vector2f(1000.0f, 0.0f), (string)"Timerplatform 2: ");*/
 			window.display();
 		}
 	}

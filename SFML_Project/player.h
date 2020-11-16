@@ -9,7 +9,7 @@ using namespace sf;
 class Player
 {
 public:
-	Player(sf::Texture* texture, sf::Vector2u imageframe, float speed);
+	Player(sf::Texture* texture2 , sf::Texture* texture, sf::Vector2u imageframe, float speed);
 	~Player();
 	void update(float delta_player, float ground, float degree);
 	void draw(sf::RenderWindow& window);
@@ -25,6 +25,7 @@ public:
 	float gettop() { return player_clone.top; }
 
 public:
+	sf::RectangleShape hptexture;
 	sf::RectangleShape hitbox;
 	sf::FloatRect player_clone;
 	sf::Sprite player;
@@ -41,8 +42,11 @@ public:
 	sf::Vector2f direction;
 	bool faceright;
 	bool openUp = true;
+	unsigned int hp = 10;
 
 private:
+	sf::Texture thp;
+	sf::RectangleShape hpbar;
 	sf::Vector2u imageframe;
 	sf::Vector2f frame;
 	sf::FloatRect platform;
