@@ -45,7 +45,7 @@ Player::~Player()
 
 }
 
-void Player::update(float delta_player, float ground, float degree)
+void Player::update(float delta_player  , float degree)
 {
 	arm.setPosition(getcenter());
 	arm.setRotation(degree + 90);

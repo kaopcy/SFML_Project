@@ -11,7 +11,7 @@ class Player
 public:
 	Player(int playertex , sf::Vector2u imageframe, float speed);
 	~Player();
-	void update(float delta_player, float ground, float degree);
+	void update(float delta_player , float degree);
 	void draw(sf::RenderWindow& window);
 	void moveplayer();
 	void setposi(sf::Vector2f position) { player.setPosition(position); }

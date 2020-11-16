@@ -6,7 +6,7 @@
 using namespace std;
 Texteiei::Texteiei()
 {
-	font.loadFromFile("font.ttf");
+	font.loadFromFile("Font/Font_cartoon.otf");
 }
 Texteiei::~Texteiei(){}
 void Texteiei::text1(float number , sf::RenderWindow &window , sf::Vector2f position ,string str)
