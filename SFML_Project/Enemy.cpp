@@ -25,7 +25,7 @@ Enemy::~Enemy()
 {
 }
 
-void Enemy::update(float deltatime)
+void Enemy::update(const float deltatime)
 {
 	if (dx == 1)
 	{

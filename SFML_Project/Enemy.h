@@ -5,7 +5,7 @@ class Enemy
 public:
 	sf::RectangleShape hitbox;
 	Enemy(int texturenum ,int hp ,sf::Vector2u imageframe);
-	~Enemy();
+	virtual ~Enemy();
 	void update(float deltatime);
 	void draw(sf::RenderWindow& window);
 	void drawexplode(sf::RenderWindow& window);

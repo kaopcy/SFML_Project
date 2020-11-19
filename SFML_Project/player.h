@@ -1,16 +1,12 @@
 #pragma once
 #include<SFML/Graphics.hpp>
-#include "Enemy.h"
-#include "Walkground.h"
-#include "colider.h"
-#include "collision_test.h"
 
 using namespace sf;
 class Player
 {
 public:
 	Player(int playertex , sf::Vector2u imageframe, float speed);
-	~Player();
+	virtual ~Player();
 	void update(float delta_player , float degree);
 	void draw(sf::RenderWindow& window);
 	void moveplayer();

@@ -15,9 +15,8 @@ float degree;
 int main()
 {
 	Game game;
-	game.updateEvent();
+	game.core();
 	return (0);
-
 }
 
 

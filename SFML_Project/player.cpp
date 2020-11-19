@@ -7,11 +7,12 @@ Player::Player(int playertex ,sf::Vector2u imageframe, float speed):
 	hpbar.setFillColor(sf::Color(67,219,29));
 	hpbar.setOrigin(sf::Vector2f(0, hpbar.getSize().y));
 	hpbar.setPosition(sf::Vector2f(100, 20));
-
+	hpbar.setScale(0.7, 0.7);
 	this->hptexture.setTexture(&thp);
-	hptexture.setPosition(sf::Vector2f(30, 17));
+	hptexture.setPosition(sf::Vector2f(hpbar.getPosition().x - 50, hpbar.getPosition().y - hpbar.getSize().y - 5) );
 	hptexture.setOrigin(sf::Vector2f(0, 0));
 	hptexture.setSize(sf::Vector2f(thp.getSize().x , thp.getSize().y));
+	hptexture.setScale(0.7, 0.7);
 
 	this->player.setTexture(tplayer);
 	this->imageframe = imageframe;
@@ -45,7 +46,7 @@ Player::~Player()
 
 }
 
-void Player::update(float delta_player  , float degree)
+void Player::update(const float delta_player  , float degree)
 {
 	arm.setPosition(getcenter());
 	arm.setRotation(degree + 90);

@@ -4,7 +4,7 @@ class Background_move
 {
 public:
 	Background_move(sf::Texture *texture);
-	~Background_move();
+	virtual ~Background_move();
 	sf::Sprite backgroundmove;
 	void draw(sf::RenderWindow& window);
 	void background_update(float deltatime);

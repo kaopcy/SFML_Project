@@ -157,11 +157,12 @@
     <ClCompile Include="colision.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Gamestate.cpp" />
     <ClCompile Include="Platform.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="SFML_Project.cpp" />
+    <ClCompile Include="State.cpp" />
     <ClCompile Include="Text.cpp" />
-    <ClCompile Include="Walkground.cpp" />
     <ClCompile Include="Weapon.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -171,11 +172,12 @@
     <ClInclude Include="colision.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Gamestate.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="State.h" />
     <ClInclude Include="Text.h" />
-    <ClInclude Include="Walkground.h" />
     <ClInclude Include="Weapon.h" />
   </ItemGroup>
   <ItemGroup>

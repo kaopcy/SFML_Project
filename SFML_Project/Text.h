@@ -8,7 +8,7 @@ class Texteiei
 {
 public:
 	Texteiei();
-	~Texteiei();
+	virtual ~Texteiei();
 	void text1(float number, sf::RenderWindow& window, sf::Vector2f position, string str);
 
 private:

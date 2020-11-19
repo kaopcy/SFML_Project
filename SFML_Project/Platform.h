@@ -5,7 +5,7 @@ class Platform
 {
 public:
 	Platform(sf::Texture* texture, sf::Vector2f size, float offset, int speed, sf::Vector2f position);
-	~Platform();
+	virtual ~Platform();
 	void Update(float deltatime);
 	void Draw(sf::RenderWindow& window);
 	sf::RectangleShape hitbox;

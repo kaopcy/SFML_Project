@@ -21,7 +21,7 @@ public:
 		this->hitbox.setOrigin(shape.getOrigin());
 		
 	}
-	~Bullet();
+	virtual ~Bullet();
 	float reload = 1.0f;
 	float speed;
 	sf::RectangleShape shape;
