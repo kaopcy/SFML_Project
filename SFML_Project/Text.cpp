@@ -65,7 +65,6 @@ void Texteiei::Jumpingtext(sf::RenderWindow& window, string str, float size, sf:
 		flagSetposition = false;
 		if (right) directX = directx;
 		if (!right) directX = -directx;
-
 	}
 
 	Text1.Bold;
@@ -73,6 +72,9 @@ void Texteiei::Jumpingtext(sf::RenderWindow& window, string str, float size, sf:
 	Text1.setCharacterSize(size);
 	Text1.setString(str);
 	Text1.setFillColor(sf::Color(colour.x, colour.y, colour.z));
+	Text1.setOrigin(Text1.getGlobalBounds().width / 2, Text1.getGlobalBounds().height / 2);
+	hitbox.setOrigin(hitbox.getSize().x / 2, hitbox.getSize().y / 2);
+
 	if (right)
 	{
 		directY++;
@@ -114,7 +116,6 @@ void Texteiei::Jumpingtext(sf::RenderWindow& window, string str, float size, sf:
 	hitbox.setPosition(sf::Vector2f(Text1.getPosition().x, Text1.getPosition().y));
 
 	window.draw(Text1);
-	window.draw(hitbox);
 }
 
 

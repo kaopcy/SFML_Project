@@ -18,7 +18,7 @@ public:
 	float getleft() { return hitbox.getPosition().x; }
 	float gettop() { return hitbox.getPosition().y; }
 	float getbot() { return hitbox.getPosition().y + hitbox.getSize().y; }
-
+	sf::IntRect hitboxGBB() { return sf::IntRect(hitbox.getGlobalBounds()); }
 
 
 

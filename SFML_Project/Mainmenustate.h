@@ -18,7 +18,9 @@ private:
 	Texteiei Text3;
 	Texteiei Text2;
 	Texteiei Text1;
-
 	sf::Texture tbackground;
+	 float textsize = 100;
+	 float textsize2 = 100;
+
 };
 

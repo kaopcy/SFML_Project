@@ -36,24 +36,32 @@ void Mainmenustate::update(const float& deltatime , sf::Event evnt)
 void Mainmenustate::render(sf::RenderWindow& window)
 {
 	window.draw(Bg);
-	Text2.Jumpingtext(window, (string)"Start", 100.0f, sf::Vector2f(100.0f, 0.0f), sf::Vector3i(253, 227, 155), 580, (float) 8 , 1);
-	Text1.Jumpingtext(window, (string)"Exit", 100.0f, sf::Vector2f(2000.0f, 0.0f), sf::Vector3i(253, 227, 155), 780, (float)9.25, 0);
+	Text2.Jumpingtext(window, (string)"Start", textsize, sf::Vector2f(100.0f, 0.0f), sf::Vector3i(253, 227, 155), 580, (float) 8 , 1);
+	Text1.Jumpingtext(window, (string)"Exit", textsize2, sf::Vector2f(2000.0f, 0.0f), sf::Vector3i(253, 227, 155), 780, (float)9.25, 0);
 }
 
 void Mainmenustate::Buttoncheck(const float& deltatime)
 {
-	if (sf::Mouse::getPosition().x >= Text2.getleft() and sf::Mouse::getPosition().x <= Text2.getright() and sf::Mouse::getPosition().y >= Text2.gettop() and sf::Mouse::getPosition().y <= Text2.getbot())
+	if (Text2.hitboxGBB().contains(sf::Mouse::getPosition()))
 	{
+		textsize = 150;
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 		{
 			cout << "HolyShit";
 			addstate = true;
 		}
 	}
-	if (sf::Mouse::getPosition().x >= Text1.getleft() and sf::Mouse::getPosition().x <= Text1.getright() and sf::Mouse::getPosition().y >= Text1.gettop() and sf::Mouse::getPosition().y <= Text1.getbot())
+	else textsize = 100;
+	if (Text1.hitboxGBB().contains(sf::Mouse::getPosition()))
 	{
-		window->close();
+		textsize2 = 150;
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+		{
+			window->close();
+		}
 	}
+	else textsize2 = 100;
+
 }
 
 
