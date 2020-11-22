@@ -23,6 +23,7 @@ Enemy::Enemy(int texturenum, int hp, sf::Vector2u imageframe) :
 
 Enemy::~Enemy()
 {
+	
 }
 
 void Enemy::update(const float deltatime)

@@ -21,16 +21,19 @@ class State
 public:
 	State(sf::RenderWindow *window);
 	virtual ~State();
-	virtual void updatekeybind(const float &deltatime) = 0;
+	virtual void render(sf::RenderWindow& window) = 0;
+	virtual void updatekeybind(const float &deltatime , sf::Event evnt) = 0;
+	virtual void update(const float &deltatime , sf::Event evnt) = 0;
 	virtual void endstate() = 0;
 	virtual void checkforquit(); 
-	virtual void update(const float &deltatime) = 0;
-	virtual void render(sf::RenderTarget *target = nullptr) = 0;
 	const bool& getquit() const;
+	const bool& getaddstate() const;
 
-private:
+protected:
 	sf::RenderWindow* window;
 	std::vector<sf::Texture> textures;
 	bool quit = false;
+	bool addstate = false;
+
 };
 

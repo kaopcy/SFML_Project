@@ -46,10 +46,9 @@ Player::~Player()
 
 }
 
-void Player::update(const float delta_player  , float degree)
+void Player::update(const float delta_player  , const float degree)
 {
-	arm.setPosition(getcenter());
-	arm.setRotation(degree + 90);
+	armDisable(getWeapon(), degree);
 	hpbar.setSize(sf::Vector2f(hp * 100, 70));
 
 	this->hitbox.setPosition(sf::Vector2f(player_clone.left, player_clone.top));
@@ -75,7 +74,11 @@ void Player::draw(sf::RenderWindow& window)
 {
 	window.draw(player);
 	window.draw(hitbox);
-	window.draw(arm);
+	if (getWeapon() == 1)
+	{
+		window.draw(arm);
+
+	}
 	//window.draw(circle);
 	window.draw(hpbar);
 	window.draw(hptexture);
@@ -106,6 +109,15 @@ void Player::texturecontrol(int playertex)
 		thp.loadFromFile("hpbar/hpbar.png");
 	}
 	
+}
+
+void Player::armDisable(short int getweapon , const float degree)
+{
+	if (getweapon == 1)
+	{
+		arm.setPosition(getcenter());
+		arm.setRotation(degree + 90);
+	}
 }
 
 

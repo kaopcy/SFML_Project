@@ -14,12 +14,16 @@ void State::checkforquit()
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Delete))
 	{
 		this->quit = true;
-
 	}
 }
+
 
 const bool& State::getquit() const
 {
 	return this->quit;
+}
 
+const bool& State::getaddstate() const
+{
+	return this->addstate;
 }

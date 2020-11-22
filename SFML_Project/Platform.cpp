@@ -1,6 +1,6 @@
 #include "Platform.h"
 
-Platform::Platform(sf::Texture* texture, sf::Vector2f size, float offset, int speed, sf::Vector2f position)
+Platform::Platform(sf::Texture* texture, sf::Vector2f size, float offset, int speed, sf::Vector2f position , bool directiton)
 {
 	this->speed = speed;
 	this->position = position;
@@ -14,6 +14,9 @@ Platform::Platform(sf::Texture* texture, sf::Vector2f size, float offset, int sp
 	hitbox.setOutlineColor(sf::Color::Green);
 	hitbox.setSize(sf::Vector2f(size.x, (size.y / 2) + offset));
 	this->size = size;
+
+	if (directiton) { this->dx = 1; }
+	if (!directiton) { this->dx = -1; }
 }
 
 Platform::~Platform()

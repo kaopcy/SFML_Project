@@ -7,7 +7,7 @@ class Player
 public:
 	Player(int playertex , sf::Vector2u imageframe, float speed);
 	virtual ~Player();
-	void update(float delta_player , float degree);
+	void update(float delta_player , const float degree);
 	void draw(sf::RenderWindow& window);
 	void moveplayer();
 	void setposi(sf::Vector2f position) { player.setPosition(position); }
@@ -30,6 +30,10 @@ public:
 	sf::Vector2u currentframe;
 	sf::RectangleShape arm;
 
+	short int weaponInput = 0;
+	short int getWeapon() { return weaponInput % 2; }
+
+	void armDisable( short int, const float degree);
 	bool onground = false;
 	float testspeed = 15.0;
 	float dx, dy;
@@ -37,7 +41,6 @@ public:
 	int row = 0;
 	bool playercollision = false;
 	sf::Vector2f direction;
-	bool openUp = true;
 	unsigned int hp = 10;
 
 private:

@@ -4,7 +4,7 @@
 class Platform
 {
 public:
-	Platform(sf::Texture* texture, sf::Vector2f size, float offset, int speed, sf::Vector2f position);
+	Platform(sf::Texture* texture, sf::Vector2f size, float offset, int speed, sf::Vector2f position, bool directiton);
 	virtual ~Platform();
 	void Update(float deltatime);
 	void Draw(sf::RenderWindow& window);
@@ -18,7 +18,7 @@ public:
 	
 private:
 	sf::RectangleShape body;
-	int dx = 1;
+	int dx = 0;
 	int dy = 0;
 	sf::Vector2f size;
 	sf::Vector2f position;

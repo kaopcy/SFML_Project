@@ -5,7 +5,7 @@ class Bullet
 public:
 
 	Bullet(sf::Vector2f size = sf::Vector2f(30.0f, 20.0f))
-		:currentvelocity(0.0f, 0.0f), speed(50.0f)
+		:currentvelocity(0.0f, 0.0f)
 	{
 		this->tbullet.loadFromFile("pic/bullet.png");
 		this->shape.setSize(size);
@@ -22,8 +22,8 @@ public:
 		
 	}
 	virtual ~Bullet();
-	float reload = 1.0f;
-	float speed;
+	float reload = 5.0f;
+	float speed = 25.0f;
 	sf::RectangleShape shape;
 	sf::Vector2f currentvelocity;
 	sf::Texture tbullet;
