@@ -6,7 +6,7 @@ public:
 	sf::RectangleShape hitbox;
 	Enemy(int texturenum ,int hp ,sf::Vector2u imageframe);
 	virtual ~Enemy();
-	void update(float deltatime);
+	void update(float deltatime , bool &slash);
 	void draw(sf::RenderWindow& window);
 	void drawexplode(sf::RenderWindow& window);
 	float calculateHP(int hp, float sizeX);
@@ -20,7 +20,7 @@ public:
 	bool flag = false;
 	bool dead = false;
 	
-	float dy = 0;
+	float dy = 4;
 	float dx = 1;
 private:
 	//For declare texture 
@@ -45,5 +45,6 @@ private:
 	float minus = 0;
 	float percent = 100;
 	int hpmax;
+	int row_explode = 0;
 };
 

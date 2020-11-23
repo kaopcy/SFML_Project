@@ -5,7 +5,7 @@ Enemy::Enemy(int texturenum, int hp, sf::Vector2u imageframe) :
 	this->texturecontrol(texturenum);
 	this->hp = hp;
 	this->currentframeexplode.x = Texplode.getSize().x / 8;
-	this->currentframeexplode.y = Texplode.getSize().y;
+	this->currentframeexplode.y = Texplode.getSize().y /2;
 	this->hpRec.setFillColor(sf::Color(255, 40, 24));
 	explosion.setTexture(Texplode);
 	explosion.setPosition(-4000, -4000);
@@ -26,7 +26,7 @@ Enemy::~Enemy()
 	
 }
 
-void Enemy::update(const float deltatime)
+void Enemy::update(const float deltatime , bool &slash)
 {
 	if (dx == 1)
 	{
@@ -59,27 +59,58 @@ void Enemy::update(const float deltatime)
 		if (offsetenemyspeed >= 0.5f)
 		{
 			offsetenemyspeed -= 0.5f;
-			dy += 2;
 		}
 		hitbox.move(dx * deltatime * (rand() % (200 - 100) + 100), dy);
 	}
 
 	if (dead)
 	{
-		
-		explosion.setPosition(hitbox.getPosition());
-		explosion.setTextureRect(sf::IntRect(currentframeexplode.x * animationexplode, 0, currentframeexplode.x, currentframeexplode.y));
+		if (!slash)
 		{
-			//Edit speed animation explode
-			offset2 += deltatime;
-			if (offset2 >= 0.1)
+			explosion.setPosition(hitbox.getPosition());
+			explosion.setTextureRect(sf::IntRect(currentframeexplode.x * animationexplode, currentframeexplode.y * 0, currentframeexplode.x, currentframeexplode.y));
 			{
-				offset2 -= 0.1;
-				animationexplode++;
-				if (animationexplode > 8) { animationexplode = 0; }
+				//Edit speed animation explode
+				offset2 += deltatime;
+				if (offset2 >= 0.1)
+				{
+					offset2 -= 0.1;
+					animationexplode++;
+					if (animationexplode > 8) { animationexplode = 0; }
+				}
 			}
+			lifetime -= deltatime;
 		}
-		lifetime -= deltatime;
+		if (slash)
+		{
+			if (lifetime >= lifetime / 2)
+			{
+				explosion.setPosition(hitbox.getPosition());
+				explosion.setTextureRect(sf::IntRect(currentframeexplode.x * animationexplode, currentframeexplode.y * 1, currentframeexplode.x, currentframeexplode.y));
+				
+
+			}
+			else
+			{
+				explosion.setPosition(hitbox.getPosition());
+				explosion.setTextureRect(sf::IntRect(currentframeexplode.x * animationexplode, currentframeexplode.y * 0, currentframeexplode.x, currentframeexplode.y));
+			}
+
+			{
+				//Edit speed animation explode
+				offset2 += deltatime;
+				if (offset2 >= 0.1)
+				{
+					offset2 -= 0.1;
+					animationexplode++;
+					if (animationexplode > 8) { animationexplode = 0; }
+				}
+			}
+			lifetime -= (deltatime)*0.5;
+
+		}
+		
+		
 	}
 }
 void Enemy::draw(sf::RenderWindow& window)

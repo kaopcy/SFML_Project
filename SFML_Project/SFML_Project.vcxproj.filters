@@ -57,6 +57,12 @@
     <ClCompile Include="Mainmenustate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Assetmanager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Defination.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="player.h">
@@ -99,6 +105,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Mainmenustate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Assetmanager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Defination.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

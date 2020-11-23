@@ -37,11 +37,14 @@ public:
 	bool onground = false;
 	float testspeed = 15.0;
 	float dx, dy;
+	float speed = 1000;
 	float add = 0;
 	int row = 0;
 	bool playercollision = false;
 	sf::Vector2f direction;
 	unsigned int hp = 10;
+	bool sharingan = false;
+	float sharingantimer = 5;
 
 private:
 	sf::Texture tplayer;
@@ -59,6 +62,6 @@ private:
 	float offsetanimation = 0;
 	float offsetadd = 0;
 	float offsetadd2 = 0;
-	
+
 };
 

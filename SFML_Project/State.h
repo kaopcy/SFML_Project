@@ -8,6 +8,7 @@
 #include <stack>
 #include <map>
 
+#include "Defination.h"
 #include "player.h"
 #include "Background_move.h"
 #include "Text.h"
@@ -19,11 +20,11 @@
 class State
 {
 public:
-	State(sf::RenderWindow *window);
+	State(sf::RenderWindow *window );
 	virtual ~State();
 	virtual void render(sf::RenderWindow& window) = 0;
-	virtual void updatekeybind(const float &deltatime , sf::Event evnt) = 0;
-	virtual void update(const float &deltatime , sf::Event evnt) = 0;
+	virtual void updatekeybind(const float &deltatime , sf::Event& evnt) = 0;
+	virtual void update(const float &deltatime , sf::Event& evnt) = 0;
 	virtual void endstate() = 0;
 	virtual void checkforquit(); 
 	const bool& getquit() const;

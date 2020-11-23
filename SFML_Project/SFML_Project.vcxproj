@@ -152,9 +152,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
+    <ClCompile Include="Assetmanager.cpp" />
     <ClCompile Include="Background_move.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="colision.cpp" />
+    <ClCompile Include="Defination.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Gamestate.cpp" />
@@ -168,9 +170,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
+    <ClInclude Include="Assetmanager.h" />
     <ClInclude Include="Background_move.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="colision.h" />
+    <ClInclude Include="Defination.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Gamestate.h" />

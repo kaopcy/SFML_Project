@@ -8,6 +8,8 @@ public:
 	virtual ~Platform();
 	void Update(float deltatime);
 	void Draw(sf::RenderWindow& window);
+	void moving(float multiple, const float& deltatime);
+
 	sf::RectangleShape hitbox;
 	int animation = 0;
 	float getbot() { return hitbox.getPosition().y + hitbox.getSize().y; }
@@ -15,11 +17,11 @@ public:
 	float lifetime = 5;
 	void stop() { dx = 0; }
 	int speed;
+	float dx = 0;
+	float  dy = 0;
 	
 private:
 	sf::RectangleShape body;
-	int dx = 0;
-	int dy = 0;
 	sf::Vector2f size;
 	sf::Vector2f position;
 };

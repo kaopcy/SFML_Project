@@ -26,15 +26,8 @@ Platform::~Platform()
 void Platform::Update(float deltatime)
 {
 	body.setTextureRect(sf::IntRect(size.x * animation, 0, size.x, size.y));
-	body.setPosition(sf::Vector2f(hitbox.getPosition().x, hitbox.getPosition().y + hitbox.getSize().y));
-	if (hitbox.getPosition().x > 1500 and dx == 1)
-	{
-		dx = -1;
-	}
-	if (hitbox.getPosition().x < 0 and dx == -1)
-	{
-		dx = 1;
-	}
+	
+	
 	lifetime -= deltatime;
 	
 	{
@@ -54,13 +47,28 @@ void Platform::Update(float deltatime)
 		dy = 3;
 	}
 
-	hitbox.move(speed * dx * deltatime, dy * 200 * deltatime);
 
 
 }
+
+
 
 void Platform::Draw(sf::RenderWindow& window)
 {
 	window.draw(body);
 	window.draw(hitbox);
+}
+
+void Platform::moving(float multiple, const float& deltatime)
+{
+	if (hitbox.getPosition().x > 1500 and dx == 1)
+	{
+		dx = -1 ;
+	}
+	if (hitbox.getPosition().x < 0 and dx == -1)
+	{
+		dx = 1 ;
+	}
+	body.setPosition(sf::Vector2f(hitbox.getPosition().x, hitbox.getPosition().y + hitbox.getSize().y));
+	hitbox.move(speed * dx * deltatime * multiple, dy * 200 * deltatime);
 }

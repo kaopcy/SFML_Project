@@ -17,7 +17,7 @@ Player::Player(int playertex ,sf::Vector2u imageframe, float speed):
 	this->player.setTexture(tplayer);
 	this->imageframe = imageframe;
 	this->testspeed = speed;
-	this->player.setScale(5.0, 5.0);
+	this->player.setScale(0.4, 0.4);
 	this->currentframe.x = (tplayer.getSize().x / imageframe.x) * player.getScale().x;
 	this->currentframe.y = (tplayer.getSize().y / imageframe.y) * player.getScale().x;
 	this->frame.x = (tplayer.getSize().x / imageframe.x);
@@ -53,7 +53,7 @@ void Player::update(const float delta_player  , const float degree)
 
 	this->hitbox.setPosition(sf::Vector2f(player_clone.left, player_clone.top));
 	this->delta_player = delta_player;
-	this->velocity.x = (int)dx * delta_player * 1000;
+	this->velocity.x = (int)dx * delta_player * speed;
 	this->velocity.y = (int)dy * delta_player * 99.8;
 	this->player.setPosition(player_clone.left,player_clone.top);
 	this->player.setTextureRect(sf::IntRect (frame.x * animationframe , row  * frame.y , frame.x ,frame.y));
@@ -63,7 +63,7 @@ void Player::update(const float delta_player  , const float degree)
 		offsetanimation -= switchtime;
 		animationframe++;
 	}
-	if (animationframe >= imageframe.y)
+	if (animationframe >= imageframe.x)
 	{
 		animationframe = 0;
 	}
@@ -98,6 +98,7 @@ void Player::moveplayer()
 	{
 		dy += 2;
 	}
+
 	
 }
 
@@ -105,7 +106,7 @@ void Player::texturecontrol(int playertex)
 {
 	if (playertex == 1)
 	{
-		tplayer.loadFromFile("fox.png");
+		tplayer.loadFromFile("Player/Player.png");
 		thp.loadFromFile("hpbar/hpbar.png");
 	}
 	

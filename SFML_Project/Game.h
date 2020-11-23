@@ -1,9 +1,17 @@
 #pragma once
 #include "Gamestate.h"
 #include "Mainmenustate.h"
+#include "Assetmanager.h"
 using namespace std;
 using namespace sf;
-class Game 
+
+struct Gamedata
+{
+	Assetmanager asset;
+};
+
+class Game :
+	public Assetmanager
 {
 private:
 	sf::Texture tcursor;
@@ -17,7 +25,7 @@ private:
 	sf::Sprite cursor;
 	sf::View view;
 	std::stack<State*> states;
-
+	Gamedata _data;
 public :
 	///<constructor>
 	Game();
@@ -29,7 +37,6 @@ public :
 	void windowopen();
 	void render();
 	void Event();
-	void loadbackground();
 	void initWindow();
 	void initstate();
 	

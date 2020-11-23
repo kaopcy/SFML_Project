@@ -1,25 +1,22 @@
 #include "Gamestate.h"
-Gamestate::Gamestate(sf::RenderWindow* window):
+Gamestate::Gamestate(sf::RenderWindow* window) :
 	State(window),
-	player1(1, sf::Vector2u(5, 5), 100.0f),
-	enemy1(1, 10, sf::Vector2u(4, 2)),
+	player1(1, sf::Vector2u(6, 7), 100.0f),
+	enemy1(1, 4, sf::Vector2u(4, 2)),
 	background1(&tbackground)
 {
-	platforms.push_back(Platform(&plattexture, sf::Vector2f(plattexture.getSize().x / 3, plattexture.getSize().y), 0, 300, sf::Vector2f(randowplatform(player1.getright(), player1.getglobalbound().width), 1000.0f) , rand() % 2) );
-	platforms.push_back(Platform(&plattexture2, sf::Vector2f(plattexture2.getSize().x / 3, plattexture2.getSize().y), 20, 200, sf::Vector2f(randowplatform(player1.getright(), player1.getglobalbound().width), 800.0f) , rand() % 2));
-	tbackground.loadFromFile("Background/Background.png");
+	platforms.push_back(Platform(&plattexture, sf::Vector2f(plattexture.getSize().x / 3, plattexture.getSize().y), 0, 300, sf::Vector2f(randowplatform(player1.getright(), player1.getglobalbound().width), 1000.0f), rand() % 2));
+	platforms.push_back(Platform(&plattexture2, sf::Vector2f(plattexture2.getSize().x / 3, plattexture2.getSize().y), 20, 200, sf::Vector2f(randowplatform(player1.getright(), player1.getglobalbound().width), 800.0f), rand() % 2));
 	plattexture3.loadFromFile("Platform/Platform3.png");
 	plattexture2.loadFromFile("Platform/Platform1.png");
 	plattexture.loadFromFile("Platform/Platform2_fix.png");
-
-	
 }
 
 Gamestate::~Gamestate()
 {
 }
 
-void Gamestate::updatedt(const float& deltatime )
+void Gamestate::updatedt(const float& deltatime)
 {
 	sec += deltatime;
 }
@@ -29,10 +26,10 @@ void Gamestate::endstate()
 	cout << "end state " << endl;
 }
 
-void Gamestate::updatekeybind(const float &deltatime, sf::Event evnt)
+void Gamestate::updatekeybind(const float& deltatime, sf::Event& evnt)
 {
 	//When release
-	if (sf::Event::KeyReleased )
+	if (sf::Event::KeyReleased)
 	{
 		switch (evnt.key.code)
 		{
@@ -43,20 +40,98 @@ void Gamestate::updatekeybind(const float &deltatime, sf::Event evnt)
 	}
 	this->checkforquit();
 	//When keypressed
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space))
 	{
-		player1.dx = -1;
-		player1.row = 1;
+		if (player1.onground)
+		{
+			player1.onground = false;
+			player1.dy = -30;
+		}
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))
+	{
+		slash = true;
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z))
+	{
+		player1.sharingan = true;
+	}
+	
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::X))
+	{
+		if (setmouseposiforteleport)
+		{
+			mouseposiforteleport.x = sf::Mouse::getPosition().x;
+			mouseposiforteleport.y = sf::Mouse::getPosition().y;
+			playerpositionbeforeteleport.x = player1.player_clone.left;
+			playerpositionbeforeteleport.y = player1.player_clone.top;
+
+			setmouseposiforteleport = false;
+		}
+		
+
+		if (player1.onground)
+		{
+			player1.onground = false;
+		}
+		teleport = true;
+
+
+	}
+
+
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))
+	{
+		if (!teleport and !slash)
+		{
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift))
+			{
+				player1.dx = -1;
+				player1.speed = 2000;
+				cout << "run";
+				player1.row = 2;
+
+			}
+			else
+			{
+
+				player1.speed = 1000;
+				player1.dx = -1;
+				player1.row = 4;
+			}
+		}
+		
 	}
 
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
 	{
-		player1.dx = 1;
-		player1.row = 0;
+		if (!teleport and !slash)
+		{
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift))
+			{
+				player1.dx = 1;
+				player1.speed = 2000;
+				cout << "run";
+				player1.row = 1;
+
+			}
+			else
+			{
+
+				player1.speed = 1000;
+				player1.dx = 1;
+				player1.row = 3;
+			}
+		}
+
+		
 	}
 	else
 	{
-		player1.row = 4;
+		if(!teleport and !slash)
+		player1.row = 0;
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Q) and onceSwitchWeapon)
@@ -70,7 +145,6 @@ void Gamestate::updatekeybind(const float &deltatime, sf::Event evnt)
 	{
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
 		{
-			player1.row = 2;
 			bullet.shape.setPosition(player1.getcenter());
 			bullet.currentvelocity = aimdirectionnorm * bullet.speed;
 			bullets.push_back(Bullet(bullet));
@@ -80,12 +154,13 @@ void Gamestate::updatekeybind(const float &deltatime, sf::Event evnt)
 
 }
 
-void Gamestate::update(const float &deltatime ,sf::Event evnt)
+void Gamestate::update(const float& deltatime, sf::Event& evnt)
 {
+	this->skill(deltatime);
 	this->updatedt(deltatime);
 	this->updatekeybind(deltatime, evnt);
 	player1.onground = false;
-	this->background1.background_update(deltatime);
+	this->background1.background_update(deltatime, player1.sharingan);
 	player1.update(deltatime, degree);
 	player1.moveplayer();
 	this->platformUpdate(deltatime);
@@ -96,30 +171,30 @@ void Gamestate::update(const float &deltatime ,sf::Event evnt)
 	}
 
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space))
-	{
-		if (player1.onground)
-		{
-			player1.onground = false;
-			player1.dy = -30;
-		}
-	}
+	
 	//Update Bullet Direction
 	this->Degreecalculate();
 
 	//Enemy update
-	if (enemyspawntimer < 10) { enemyspawntimer++; }
-
-	if (enemyspawntimer == 10)
+	if (!player1.sharingan)
 	{
-		enemy1.hitbox.setPosition(sf::Vector2f(rand() % window->getSize().x, -(enemy1.hitbox.getSize().y)));
-		enemies.push_back(Enemy(enemy1));
-		enemyspawntimer = 0;
+
+		if (enemyspawntimer < 10) { enemyspawntimer++; }
+
+		if (enemyspawntimer == 10)
+		{
+			enemy1.hitbox.setPosition(sf::Vector2f(rand() % window->getSize().x, -(enemy1.hitbox.getSize().y)));
+			enemies.push_back(Enemy(enemy1));
+			enemyspawntimer = 0;
+		}
 	}
 	//Checkshot
 	for (size_t i = 0; i < enemies.size(); i++)
 	{
-
+		if (slash and !enemies[i].dead )
+		{
+			enemies[i].dead = true;
+		}
 		for (size_t k = 0; k < bullets.size(); k++)
 		{
 			if (enemies[i].hitbox.getGlobalBounds().intersects(bullets[k].shape.getGlobalBounds()) and !enemies[i].dead)
@@ -134,7 +209,18 @@ void Gamestate::update(const float &deltatime ,sf::Event evnt)
 				bullets.erase(bullets.begin() + k);
 			}
 		}
-		enemies[i].update(deltatime);
+		enemies[i].update(deltatime , slash);
+
+		if (slow)
+		{
+			enemies[i].dy = 0.5;
+			enemies[i].dx *= 0.5;
+		}
+		else
+		{
+			enemies[i].dy = 4;
+		}
+
 		if (enemies[i].lifetime <= 0 and enemies[i].dead)
 		{
 			enemies.erase(enemies.begin() + i);
@@ -176,9 +262,12 @@ void Gamestate::update(const float &deltatime ,sf::Event evnt)
 	//Update Bullet
 	for (size_t k = 0; k < bullets.size(); k++)
 	{
-		bullets[k].update();
-		bullets[k].shape.setRotation(degree);
-		bullets[k].shape.move(bullets[k].currentvelocity);
+		bullets[k].update(deltatime , player1.sharingan);
+		if(slow)
+		bullets[k].shape.move( bullets[k].currentvelocity.x * 0.1 , bullets[k].currentvelocity.y * 0.1);
+		else
+		bullets[k].shape.move(bullets[k].currentvelocity.x * 1, bullets[k].currentvelocity.y * 1);
+
 		if (bullets[k].shape.getPosition().y < 0 or bullets[k].shape.getPosition().y > window->getSize().y or bullets[k].shape.getPosition().x < 0 or bullets[k].shape.getPosition().x > window->getSize().x)
 		{
 			bullets.erase(bullets.begin() + k);
@@ -193,48 +282,57 @@ void Gamestate::platformUpdate(const float& deltatime)
 		platformnum++;
 		flag1 = true;
 	}
-	if ((int)sec == 4 and flag1 == 1)
+	if ((int)sec == 3 and flag1 == 1)
 	{
-		platforms.push_back(Platform(&plattexture2, sf::Vector2f(plattexture2.getSize().x / 3, plattexture2.getSize().y), 20, 200, sf::Vector2f(randowplatform(player1.getright(), player1.getglobalbound().width), 800.0f) , rand() % 2));
+		platforms.push_back(Platform(&plattexture2, sf::Vector2f(plattexture2.getSize().x / 3, plattexture2.getSize().y), 20, 200, sf::Vector2f(randowplatform(player1.getright(), player1.getglobalbound().width), 900.0f), rand() % 2));
 		platformnum++;
 		flag1 = false;
 	}
-	for (size_t i = 0; i < platforms.size(); i++)
+	if (!slow)
 	{
-		if (platforms[i].lifetime <= 2)
-		{
-			platforms[i].animation = 1;
-			if (platforms[i].lifetime <= 0.2)
-			{
-				platforms[i].animation = 2;
-			}
-			if (platforms[i].speed > 0)
-				platforms[i].speed -= (5);
-		}
-		if (platforms[i].lifetime <= 0)
-		{
-			platforms.erase(platforms.begin() + i);
-			platformnum++;
-			switch (platformnum % 3)
-			{
-			case 0:
-				platforms.push_back(Platform(&plattexture, sf::Vector2f(plattexture.getSize().x / 3, plattexture.getSize().y), 0, 300, sf::Vector2f(randowplatform(player1.getright(), player1.getglobalbound().width), 1000.0f) , rand() % 2 ));
-				break;
-			case 1:
-				platforms.push_back(Platform(&plattexture2, sf::Vector2f(plattexture2.getSize().x / 3, plattexture2.getSize().y), 20, 200, sf::Vector2f(randowplatform(player1.getright(), player1.getglobalbound().width), 800.0f) , rand() % 2));
-				break;
-			case 2:
-				platforms.push_back(Platform(&plattexture3, sf::Vector2f(plattexture3.getSize().x / 3, plattexture3.getSize().y), 20, 500, sf::Vector2f(randowplatform(player1.getright(), player1.getglobalbound().width), 700.0f) , rand() % 2));
-				break;
-			}
-			break;
-		}
-		platforms[i].Update(deltatime);
 
+		for (size_t i = 0; i < platforms.size(); i++)
+		{
+			if (platforms[i].lifetime <= 2)
+			{
+				platforms[i].animation = 1;
+				if (platforms[i].lifetime <= 0.2)
+				{
+					platforms[i].animation = 2;
+				}
+				if (platforms[i].speed > 0)
+					platforms[i].speed -= (5);
+			}
+			if (platforms[i].lifetime <= 0)
+			{
+				platforms.erase(platforms.begin() + i);
+				platformnum++;
+				switch (platformnum % 3)
+				{
+				case 0:
+					platforms.push_back(Platform(&plattexture, sf::Vector2f(plattexture.getSize().x / 3, plattexture.getSize().y), 0, 300, sf::Vector2f(randowplatform(player1.getright(), player1.getglobalbound().width), 1000.0f), rand() % 2));
+					break;
+				case 1:
+					platforms.push_back(Platform(&plattexture2, sf::Vector2f(plattexture2.getSize().x / 3, plattexture2.getSize().y), 20, 200, sf::Vector2f(randowplatform(player1.getright(), player1.getglobalbound().width), 800.0f), rand() % 2));
+					break;
+				case 2:
+					platforms.push_back(Platform(&plattexture3, sf::Vector2f(plattexture3.getSize().x / 3, plattexture3.getSize().y), 20, 500, sf::Vector2f(randowplatform(player1.getright(), player1.getglobalbound().width), 900.0f), rand() % 2));
+					break;
+				}
+				break;
+			}
+			platforms[i].Update(deltatime);
+
+		}
 	}
 
 	for (size_t i = 0; i < platforms.size(); i++)
 	{
+		if(!slow)
+		platforms[i].moving((float)1.0 , deltatime);
+		else
+		platforms[i].moving((float)0.1, deltatime);
+
 		if (player1.player_clone.intersects(platforms[i].hitbox.getGlobalBounds()))
 		{
 			///<Right>///
@@ -283,7 +381,7 @@ void Gamestate::Degreecalculate()
 
 void Gamestate::render(sf::RenderWindow& window)
 {
-	this->background1.draw(window);
+	this->background1.draw(window, player1.sharingan);
 	for (size_t i = 0; i < this->enemies.size(); i++)
 	{
 		this->enemies[i].draw(window);
@@ -301,7 +399,59 @@ void Gamestate::render(sf::RenderWindow& window)
 
 void Gamestate::drawtext(sf::RenderWindow& window)
 {
-	Text3.numberwithtext(window, sec, (string)"Timer : " ,100.0f , sf::Vector2f(1300.0f, 0.0f), sf::Vector3i(247,129,232));
+	Text3.numberwithtext(window, (int)player1.sharingantimer, (string)"Timer : ", 100.0f, sf::Vector2f(1300.0f, 0.0f), sf::Vector3i(247, 129, 232));
+}
+
+void Gamestate::skill(const float& deltatime)
+{
+	if (player1.sharingan)
+	{
+		slow = true;
+		player1.sharingantimer -= deltatime;
+	}
+	if (player1.sharingantimer <= 0)
+	{
+		player1.sharingan = false;
+		player1.sharingantimer = 5;
+		slow = false;
+	}
+
+	if (teleport)
+	{
+		player1.row = 5;
+		player1.player_clone.top = playerpositionbeforeteleport.y;
+		player1.player_clone.left = playerpositionbeforeteleport.x;
+
+		if (teleporttimer >= 0.5)
+		{
+			player1.player_clone.top = mouseposiforteleport.y;
+			player1.player_clone.left = mouseposiforteleport.x;
+
+		}
+
+
+		teleporttimer += deltatime;
+		if (teleporttimer >= 0.9)
+		{
+			teleporttimer = 0;
+			teleport = false;
+			setmouseposiforteleport = true;
+
+		}
+
+	}
+	if (slash)
+	{
+		player1.row = 6;
+		slashtimer += deltatime;
+		if (slashtimer >= 0.9)
+		{
+			slash = false;
+			slashtimer = 0;
+		}
+
+
+	}
 }
 
 float Gamestate::randowplatform(float posiX, float sizeX)
@@ -313,7 +463,7 @@ float Gamestate::randowplatform(float posiX, float sizeX)
 	}
 	else if (size >= window->getSize().x / 2)
 	{
-		return rand() % ((int)window->getSize().x - ( (int)window->getSize().x / 2 +(int)sizeX ) ) + ((int)window->getSize().x / 2 + (int)sizeX);
+		return rand() % ((int)window->getSize().x - ((int)window->getSize().x / 2 + (int)sizeX)) + ((int)window->getSize().x / 2 + (int)sizeX);
 	}
 
 }

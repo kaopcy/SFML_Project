@@ -1,18 +1,29 @@
 #include "Background_move.h"
 Background_move::Background_move(sf::Texture *texture)
 {
-	backgroundmove.setTexture(*texture);
+    btexture.loadFromFile("Background/Background.jpg");
+	backgroundmove.setTexture(btexture);
+    stopbackgroundmove.setTexture(btexture);
+    stopbackgroundmove.setColor(sf::Color::Red);
 }
 Background_move::~Background_move()
 {
 }
-void Background_move::draw(sf::RenderWindow& window)
+void Background_move::draw(sf::RenderWindow& window, bool& sharingan)
 {
-	window.draw(backgroundmove);
+    if (!sharingan)
+    {
+	    window.draw(backgroundmove);
+    }
+    else
+    {
+        window.draw(stopbackgroundmove);
+    }
 }
-void Background_move::background_update(float deltatime)
+void Background_move::background_update(float deltatime , bool &sharingan )
 {
     backgroundmove.setTextureRect(sf::IntRect((int)i, 0, 1920, 1080));
+    
     totaltime += deltatime;
     if (totaltime >= .01f)
     {

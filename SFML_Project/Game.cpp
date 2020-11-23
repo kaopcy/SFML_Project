@@ -4,7 +4,6 @@ Game::Game()
 {
 	this->initWindow();
 	this->initstate();
-	this->loadbackground();
 }
 
 Game::~Game()
@@ -25,15 +24,15 @@ void Game::initWindow()
 	this->window->setFramerateLimit(60);
 	this->window->setVerticalSyncEnabled(false);
 
+	_data.asset.Loadtexture("mainmenu background", Background_File_Path);
+
+
 }
 
 void Game::initstate()
 {
+	
 	this->states.push(new Mainmenustate(this->window));
-}
-
-void Game::loadbackground()
-{
 }
 
 void Game::Event()

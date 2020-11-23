@@ -1,8 +1,7 @@
 #pragma once
 #include "State.h"
-
 class Gamestate :
-	public State
+	public State 
 {
 public:
 	Gamestate(sf::RenderWindow* window);
@@ -11,20 +10,18 @@ public:
 	//Function
 	void updatedt(const float& deltatime);
 	void endstate();
-	void updatekeybind(const float &deltatime, sf::Event evnt);
-	void update(const float &deltatime , sf::Event evnt);
+	void updatekeybind(const float &deltatime, sf::Event &evnt);
+	void update(const float &deltatime , sf::Event &evnt);
 	void render(sf::RenderWindow& window);
 	void Degreecalculate();
 	void platformUpdate(const float& deltatime);
 	void drawtext(sf::RenderWindow& window);
+	void skill(const float &deltatime);
 	///<Float function>
 	float randowplatform(float, float);
 private:
 	///<Texture>
-	sf::Texture plattexture;
-	sf::Texture plattexture2;
-	sf::Texture plattexture3;
-	sf::Texture tbackground;
+	
 
 	///<Class>
 	Player player1;
@@ -47,6 +44,10 @@ private:
 	float sec = 0;
 	int enemycount = 0;
 	float degree;
+	float teleporttimer = 0;
+	float slashtimer = 0;
+	sf::Vector2f mouseposiforteleport;
+	sf::Vector2f playerpositionbeforeteleport;
 
 	///<Normal declaration>
 	short int enemyspawntimer = 0;
@@ -61,8 +62,19 @@ private:
 	sf::Vector2f velocitybullet;
 	sf::Sprite cursor;
 
+	sf::Texture plattexture;
+	sf::Texture plattexture2;
+	sf::Texture plattexture3;
+	sf::Texture tbackground;
+
 	//Flag
 	bool flag1 = false;
 	bool onceSwitchWeapon = true;
+	bool slow = false;
+	bool teleport = false;
+	bool setmouseposiforteleport = true;
+	bool slash = false;
+
+
 };
 
