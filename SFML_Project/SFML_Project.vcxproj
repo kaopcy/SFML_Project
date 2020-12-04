@@ -154,6 +154,7 @@
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Assetmanager.cpp" />
     <ClCompile Include="Background_move.cpp" />
+    <ClCompile Include="Boss.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="colision.cpp" />
     <ClCompile Include="Defination.cpp" />
@@ -163,7 +164,10 @@
     <ClCompile Include="Mainmenustate.cpp" />
     <ClCompile Include="Platform.cpp" />
     <ClCompile Include="player.cpp" />
+    <ClCompile Include="Resourcemanager.cpp" />
     <ClCompile Include="SFML_Project.cpp" />
+    <ClCompile Include="Shuriken.cpp" />
+    <ClCompile Include="Soundhead.cpp" />
     <ClCompile Include="State.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="Weapon.cpp" />
@@ -172,6 +176,7 @@
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Assetmanager.h" />
     <ClInclude Include="Background_move.h" />
+    <ClInclude Include="Boss.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="colision.h" />
     <ClInclude Include="Defination.h" />
@@ -182,6 +187,9 @@
     <ClInclude Include="Platform.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="Resourcemanager.h" />
+    <ClInclude Include="Shuriken.h" />
+    <ClInclude Include="Sound.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="Weapon.h" />

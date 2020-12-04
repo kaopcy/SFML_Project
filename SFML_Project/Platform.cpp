@@ -61,14 +61,7 @@ void Platform::Draw(sf::RenderWindow& window)
 
 void Platform::moving(float multiple, const float& deltatime)
 {
-	if (hitbox.getPosition().x > 1500 and dx == 1)
-	{
-		dx = -1 ;
-	}
-	if (hitbox.getPosition().x < 0 and dx == -1)
-	{
-		dx = 1 ;
-	}
+	
 	body.setPosition(sf::Vector2f(hitbox.getPosition().x, hitbox.getPosition().y + hitbox.getSize().y));
-	hitbox.move(speed * dx * deltatime * multiple, dy * 200 * deltatime);
+	hitbox.move(speed * 0 * deltatime * multiple, dy * 200 * deltatime);
 }

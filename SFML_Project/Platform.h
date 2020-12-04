@@ -14,9 +14,13 @@ public:
 	int animation = 0;
 	float getbot() { return hitbox.getPosition().y + hitbox.getSize().y; }
 	float getright() { return hitbox.getPosition().x + hitbox.getSize().x; }
+	float getleft() { return hitbox.getPosition().x ; }
+	float gettop() { return hitbox.getPosition().y; }
+
 	float lifetime = 5;
 	void stop() { dx = 0; }
 	int speed;
+	float getDX() { return this->dx; };
 	float dx = 0;
 	float  dy = 0;
 	

@@ -1,0 +1,9 @@
+Fonts used in this design:
+
+Font: Playfair Display
+Author: Claus Eggers Sørensen
+Url: http://www.fontsquirrel.com/fonts/playfair-display
+
+Font: Poppins
+Author: Indian Type Foundry
+Url: https://www.fontsquirrel.com/fonts/poppins

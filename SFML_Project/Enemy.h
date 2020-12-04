@@ -1,5 +1,6 @@
 #pragma once
 #include<SFML/Graphics.hpp>
+#include "Defination.h"
 class Enemy
 {
 public:
@@ -11,10 +12,13 @@ public:
 	void drawexplode(sf::RenderWindow& window);
 	float calculateHP(int hp, float sizeX);
 	void texturecontrol(int);
+	void playDeadSound(bool dead);
+
+
 //Editable vaule
 public:
 	int hp;
-	float lifetime = 0.8;
+	float lifetime = 1.5;
 
 public:
 	bool flag = false;
@@ -46,5 +50,9 @@ private:
 	float percent = 100;
 	int hpmax;
 	int row_explode = 0;
+
+	bool deadflag = true;
+	sf::SoundBuffer Deadsoundbuffer;
+	sf::Sound Deadeffect;
 };
 

@@ -17,16 +17,16 @@ Player::Player(int playertex ,sf::Vector2u imageframe, float speed):
 	this->player.setTexture(tplayer);
 	this->imageframe = imageframe;
 	this->testspeed = speed;
-	this->player.setScale(0.4, 0.4);
+	this->player.setScale(0.2, 0.2);
 	this->currentframe.x = (tplayer.getSize().x / imageframe.x) * player.getScale().x;
 	this->currentframe.y = (tplayer.getSize().y / imageframe.y) * player.getScale().x;
 	this->frame.x = (tplayer.getSize().x / imageframe.x);
 	this->frame.y = (tplayer.getSize().y / imageframe.y);
 	//player clone
-	player_clone.left = 400.0f;
-	player_clone.top = 800.0f;
-	player_clone.width  = currentframe.x;
-	player_clone.height = currentframe.y;
+	player_clone.left = 960.0f;
+	player_clone.top = 0.f;
+	player_clone.width  = currentframe.x ;
+	player_clone.height = currentframe.y ;
 	hitbox.setFillColor(sf::Color::Transparent);
 	hitbox.setOutlineThickness(1);
 	hitbox.setOutlineColor(sf::Color::Red);
@@ -46,15 +46,20 @@ Player::~Player()
 
 }
 
-void Player::update(const float delta_player  , const float degree)
+void Player::update(const float delta_player  , const float degree , bool &ultimate)
 {
+	if (ultimate)
+	{
+		player_clone.width + 200;
+		player_clone.height + 200;
+	}
 	armDisable(getWeapon(), degree);
 	hpbar.setSize(sf::Vector2f(hp * 100, 70));
 
 	this->hitbox.setPosition(sf::Vector2f(player_clone.left, player_clone.top));
 	this->delta_player = delta_player;
 	this->velocity.x = (int)dx * delta_player * speed;
-	this->velocity.y = (int)dy * delta_player * 99.8;
+	this->velocity.y = (int)dy * delta_player * 99;
 	this->player.setPosition(player_clone.left,player_clone.top);
 	this->player.setTextureRect(sf::IntRect (frame.x * animationframe , row  * frame.y , frame.x ,frame.y));
 	offsetanimation += delta_player;
@@ -73,7 +78,7 @@ void Player::update(const float delta_player  , const float degree)
 void Player::draw(sf::RenderWindow& window)
 {
 	window.draw(player);
-	window.draw(hitbox);
+	//window.draw(hitbox);
 	if (getWeapon() == 1)
 	{
 		window.draw(arm);
@@ -87,15 +92,12 @@ void Player::draw(sf::RenderWindow& window)
 void Player::moveplayer()
 {
 	player_clone.left += velocity.x;
-	offsetadd += delta_player;
-	if (offsetadd >= 0.15)
-	{
-		offsetadd -= 0.15;
-	}
-		player_clone.top += velocity.y;
-	dx = 0;
+	player_clone.top  += velocity.y;
 	if (!onground)
 	{
+		if (sharingan)
+		dy += 0.5;
+		else
 		dy += 2;
 	}
 
@@ -106,8 +108,12 @@ void Player::texturecontrol(int playertex)
 {
 	if (playertex == 1)
 	{
+		if(!tplayer.loadFromFile("Player/Player.png"))
 		tplayer.loadFromFile("Player/Player.png");
 		thp.loadFromFile("hpbar/hpbar.png");
+		tplayer.setSmooth(true);
+		thp.setSmooth(true);
+
 	}
 	
 }

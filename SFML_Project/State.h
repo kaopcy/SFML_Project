@@ -1,21 +1,9 @@
 #pragma once
-#include <SFML/Graphics.hpp>
-#include <SFML/Graphics.hpp>
-#include <iostream>
-#include <math.h>
-#include <sstream>  
-#include <string.h>
-#include <stack>
-#include <map>
+
+
 
 #include "Defination.h"
-#include "player.h"
-#include "Background_move.h"
-#include "Text.h"
-#include "Bullet.h"
-#include "Platform.h"
-#include "Enemy.h"
-#include <vector>
+
 
 class State
 {

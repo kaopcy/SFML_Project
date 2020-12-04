@@ -4,8 +4,9 @@ class Bullet
 {
 public:
 
-	Bullet(sf::Vector2f size = sf::Vector2f(30.0f, 20.0f))
-		:currentvelocity(0.0f, 0.0f)
+	Bullet(float speed)
+		:currentvelocity(0.0f, 0.0f),
+		speed(speed)
 	{
 		this->tbullet.loadFromFile("Shuriken/Shuriken.png");
 		this->shape.setSize(sf::Vector2f(tbullet.getSize().x,tbullet.getSize().y ));
@@ -19,11 +20,10 @@ public:
 		this->hitbox.setOutlineColor(sf::Color::Green);
 		this->hitbox.setFillColor(sf::Color::Transparent);
 		this->hitbox.setOrigin(shape.getOrigin());
-		
 	}
 	virtual ~Bullet();
 	float reload = 5.0f;
-	float speed = 25.0f;
+	float speed;
 	sf::RectangleShape shape;
 	sf::Vector2f currentvelocity;
 	sf::Texture tbullet;
@@ -31,7 +31,7 @@ public:
 		if (sharingan)
 			spinspeed += 3;
 		else
-			spinspeed = 10;
+			spinspeed += 20;
 		if (spinspeed >= 360)
 			spinspeed = 0;
 		this->shape.setRotation(spinspeed);

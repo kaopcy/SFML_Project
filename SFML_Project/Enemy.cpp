@@ -3,22 +3,35 @@ Enemy::Enemy(int texturenum, int hp, sf::Vector2u imageframe) :
 	hpmax(hp)
 {
 	this->texturecontrol(texturenum);
+	this->animationframe = 0;
 	this->hp = hp;
 	this->currentframeexplode.x = Texplode.getSize().x / 8;
 	this->currentframeexplode.y = Texplode.getSize().y /2;
+
 	this->hpRec.setFillColor(sf::Color(255, 40, 24));
-	explosion.setTexture(Texplode);
-	explosion.setPosition(-4000, -4000);
-	explosion.setScale(1.5, 1.5);
-	S_enemy.setTexture(Etexture);
+	this->explosion.setTexture(Texplode);
+	this->explosion.setPosition(-4000, -4000);
+	this->explosion.setScale(0.7,0.7);
+	this->S_enemy.setTexture(Etexture);
 	this->imageframe = imageframe;
-	currentframe.x = Etexture.getSize().x / imageframe.x;//ค่าคือความยาวรูปทั้งหมดหาร 3 (น่าจะเป็นค่าคงที่)
-	currentframe.y = Etexture.getSize().y / imageframe.y;//ค่าคือความกว้างรูปทั้งหมดหาร 3 (น่าจะเป็นค่าคงที่)
-	animationframe = 0;
+	this->currentframe.x = Etexture.getSize().x / imageframe.x;//ค่าคือความยาวรูปทั้งหมดหาร 3 (น่าจะเป็นค่าคงที่)
+	this->currentframe.y = Etexture.getSize().y / imageframe.y;//ค่าคือความกว้างรูปทั้งหมดหาร 3 (น่าจะเป็นค่าคงที่)
+
 	this->hitbox.setSize(sf::Vector2f(currentframe));
 	this->hitbox.setFillColor(sf::Color::Transparent);
 	this->hitbox.setOutlineThickness(1);
 	this->hitbox.setOutlineColor(sf::Color::Red);
+	this->hitbox.setScale(0.6,0.6);
+	this->S_enemy.setScale(hitbox.getScale());
+
+	if (!Deadsoundbuffer.loadFromFile("Sound/Deadeffect_sound.wav"))
+	{
+		this->Deadsoundbuffer.loadFromFile("Sound/Deadeffect_sound.wav");
+
+	}
+	this->Deadeffect.setBuffer(this->Deadsoundbuffer);
+	this->Deadeffect.setVolume(10);
+
 }
 
 Enemy::~Enemy()
@@ -65,21 +78,25 @@ void Enemy::update(const float deltatime , bool &slash)
 
 	if (dead)
 	{
+		
+		
 		if (!slash)
 		{
+			//playDeadSound(dead);
 			explosion.setPosition(hitbox.getPosition());
 			explosion.setTextureRect(sf::IntRect(currentframeexplode.x * animationexplode, currentframeexplode.y * 0, currentframeexplode.x, currentframeexplode.y));
 			{
 				//Edit speed animation explode
 				offset2 += deltatime;
-				if (offset2 >= 0.1)
+				if (offset2 >= 0.12)
 				{
-					offset2 -= 0.1;
+					offset2 -= 0.12;
 					animationexplode++;
 					if (animationexplode > 8) { animationexplode = 0; }
 				}
 			}
 			lifetime -= deltatime;
+
 		}
 		if (slash)
 		{
@@ -118,7 +135,7 @@ void Enemy::draw(sf::RenderWindow& window)
 	if (!dead)
 	{
 		window.draw(S_enemy);
-		window.draw(hitbox);
+		//window.draw(hitbox);
 		window.draw(hpRec);
 	}
 	
@@ -143,6 +160,22 @@ void Enemy::texturecontrol(int num)
 	if (num == 1)
 	{
 		Texplode.loadFromFile("Explode/Explode.png");
+		Texplode.setSmooth(true);
 		Etexture.loadFromFile("Enemy/Enemy2.png");
+		Etexture.setSmooth(true);
 	}
 }
+
+void Enemy::playDeadSound(bool dead)
+{
+	if ((dead) and deadflag)
+	{
+		Deadeffect.play();
+		deadflag = false;
+	}
+	else if (!dead)
+	{
+		deadflag = true;
+	}
+}
+
