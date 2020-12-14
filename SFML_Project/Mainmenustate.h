@@ -27,5 +27,6 @@ private:
 	 float textsize2 = 100;
 	float i = 0;
 	float offsetspeed = 0;
+	sf::View view;
 };
 

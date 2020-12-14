@@ -17,6 +17,11 @@ void State::checkforquit()
 	}
 }
 
+const bool& State::isEnd() const
+{
+	return this->gameOver;
+}
+
 
 const bool& State::getquit() const
 {

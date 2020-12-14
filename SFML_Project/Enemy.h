@@ -5,14 +5,22 @@ class Enemy
 {
 public:
 	sf::RectangleShape hitbox;
-	Enemy(int texturenum ,int hp ,sf::Vector2u imageframe);
+	Enemy(sf::Texture& texture2, sf::Texture &texture ,int texturenum ,int hp ,sf::Vector2u imageframe , const sf::Vector2f &firstPosition);
 	virtual ~Enemy();
-	void update(float deltatime , bool &slash);
+	void update(float deltatime , bool &slash , const float &ground);
 	void draw(sf::RenderWindow& window);
 	void drawexplode(sf::RenderWindow& window);
 	float calculateHP(int hp, float sizeX);
 	void texturecontrol(int);
 	void playDeadSound(bool dead);
+
+	sf::Vector2f getCenter() { return sf::Vector2f(this->hitbox.getPosition().x + hitbox.getSize().x / 2, this->hitbox.getPosition().y + hitbox.getSize().y / 2); }
+	float getbot() { return getCenter().y + hitbox.getSize().y/2; }
+	float gettop() { return getCenter().y - hitbox.getSize().y / 2; }
+	float getleft() { return getCenter().x - hitbox.getSize().x / 2; }
+	float getright() { return getCenter().x + hitbox.getSize().x / 2; }
+
+
 
 
 //Editable vaule
@@ -21,15 +29,14 @@ public:
 	float lifetime = 1.5;
 
 public:
+	bool changePhases = false;
 	bool flag = false;
 	bool dead = false;
-	
+	bool erase = false;
 	float dy = 4;
 	float dx = 1;
 private:
 	//For declare texture 
-	sf::Texture Etexture;
-	sf::Texture Texplode;
 
 
 	sf::RectangleShape hpRec;

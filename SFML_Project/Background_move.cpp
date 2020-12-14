@@ -2,14 +2,15 @@
 Background_move::Background_move(sf::Texture &texture)
 {
     this->backgroundmove.setTexture(btexture);
-    this->inversetexture.loadFromFile("Background/Background_invert2.jpg");
+    this->inversetexture = btexture;
+
     this->inversetexture2.loadFromFile("Background/Background_invert3.jpg");
     this->Tslash.loadFromFile("splash/slasheffect.png");
+    this->sFireBackgroundk.setTexture(FireBackground);
     this->Tslash.setSmooth(true);
     this->slasheffect.setTexture(this->Tslash);
     this->slasheffect.setOrigin(this->Tslash.getSize().x / 2, this->Tslash.getSize().y / 2);
     this->slasheffect.setScale(this->slashscale, this->slashscale);
-    this->slasheffect.setPosition(960, 540);
     this->slasheffect2.setTexture(this->Tslash);
     this->slasheffect2.setOrigin(this->Tslash.getSize().x / 2, this->Tslash.getSize().y / 2);
     this->slasheffect2.setScale(this->slashscale, this->slashscale);
@@ -24,7 +25,7 @@ Background_move::Background_move(sf::Texture &texture)
 
     this->ground.setTexture(groundTexture);
     this->ground.setOrigin(0, groundTexture.getSize().y);
-    this->ground.setPosition(0, 1100);
+    this->ground.setPosition(0, 1150);
 
 
 }
@@ -57,13 +58,14 @@ void Background_move::draw(sf::RenderWindow& window, bool& sharingan, bool& slas
         if (sharingan)
         window.draw(this->slasheffect2);
     }
-        window.draw(this->ground);
+    window.draw(this->ground);
 
 }
-void Background_move::background_update(float deltatime , bool &sharingan, bool& slash)
+void Background_move::background_update(float deltatime , bool &sharingan, bool& slash , const sf::Vector2f playerposi)
 {
     if (slash or sharingan)
     {
+        this->slasheffect.setPosition(playerposi);
         this->slasheffect.setScale(this->slashscale, this->slashscale);
         this->slasheffect2.setScale(this->slashscale, this->slashscale);
 
@@ -73,16 +75,15 @@ void Background_move::background_update(float deltatime , bool &sharingan, bool&
         this->slashscale = 2;
     }
     this->slashscale += 1;
-    this->backgroundmove.setTextureRect(sf::IntRect((int)i, 0, 1920, 1080));
-    this->ground.setTextureRect(sf::IntRect((int)i*0.8, 0, 1920, 1080));
+    this->backgroundmove.setTextureRect(sf::IntRect((int)i, 0, 3000, 1080));
+    this->ground.setTextureRect(sf::IntRect((int)j, 0, 3000, 1080));
     if (slash)
     {
-        this->backgroundmove.setTexture(inversetexture);
-        
+        this->backgroundmove.setColor(sf::Color::Red);
     }
     else
     {
-        this->backgroundmove.setTexture(btexture);
+        this->backgroundmove.setColor(sf::Color::White);
     }
 
     if (sharingan)
@@ -114,10 +115,15 @@ void Background_move::background_update(float deltatime , bool &sharingan, bool&
     {
         this->totaltime -= .01f;
         this->i += 2;
+        j += 2;
     }
     
-    if (this->i > 5760)
+    if (this->i > 6000)
     {
         this->i = 0;
+    }
+    if (this->j > 3000)
+    {
+        this->j = 0;
     }
 }

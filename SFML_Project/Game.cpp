@@ -83,7 +83,7 @@ void Game::windowopen()
 {
 	while (window->isOpen())
 	{
-		cursor.setPosition(sf::Vector2f(sf::Mouse::getPosition()));
+		
 		this->updateDt();
 		this->Event();
 		if (!this->states.empty())
@@ -92,9 +92,13 @@ void Game::windowopen()
 			if (this->states.top()->getaddstate())
 			{
 				this->states.push(new Gamestate(this->window));
-				
 			}
-
+			if (this->states.top()->isEnd())
+			{
+				this->states.top()->endstate();
+				delete this->states.top();
+				this->states.pop();
+			}
 			if (this->states.top()->getquit())
 			{
 				this->states.top()->endstate() ;
@@ -135,7 +139,6 @@ void Game::render()
 	{
 		this->states.top()->render(*window);
 	}
-	window->draw(this->cursor);
 	window->display();
 
 }

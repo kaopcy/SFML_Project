@@ -19,9 +19,15 @@ Shuriken::~Shuriken()
 {
 }
 
-void Shuriken::update(const float& deltatime , const sf::Vector2f &degree , const bool &sharingan)
+void Shuriken::update(const float& deltatime , const sf::Vector2f &degree , const bool &sharingan, const bool &throwshuriken , const sf::Vector2f& playerposition)
 {
-	this->shape.move(direction.x * speed * deltatime , direction.y *speed * deltatime);
+	if (throwshuriken and stickPlayer)
+		this->shape.setPosition(playerposition);
+	else
+	{
+		stickPlayer = false;
+		this->shape.move(direction.x * speed * deltatime , direction.y *speed * deltatime);
+	}
 	this->shape.setScale(scale, scale);
 	this->shape.setRotation(spin);
 	this->shape.setOrigin(shape.getSize().x / 2, shape.getSize().y / 2);
@@ -31,6 +37,9 @@ void Shuriken::update(const float& deltatime , const sf::Vector2f &degree , cons
 	this->hitbox.setPosition(this->shape.getPosition());
 	this->hitbox.setSize(this->shape.getSize());
 	this->hitbox.setScale(this->shape.getScale());
+	scale += (deltatime * 1);
+	lifetime -= deltatime;
+
 	if (sharingan)
 	{
 		spin += 2;

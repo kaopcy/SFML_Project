@@ -10,6 +10,9 @@ Mainmenustate::Mainmenustate(sf::RenderWindow* window   ):
 	this->Bg.setTexture(&tbackground);
 	this->Bg.setSize(sf::Vector2f(window->getSize().x, window->getSize().y));
 	this->Bg.setPosition(0, 0);
+	view.setSize(sf::Vector2f(window->getSize().x, window->getSize().y));
+	view.setCenter(sf::Vector2f(window->getSize().x / 2, window->getSize().y / 2));
+
 }
 
 Mainmenustate::~Mainmenustate()
@@ -41,6 +44,7 @@ void Mainmenustate::update(const float& deltatime , sf::Event &evnt)
 
 void Mainmenustate::render(sf::RenderWindow& window)
 {
+	window.setView(view);
 	window.draw(Bg_walking);
 	window.draw(Bg);
 	Text2.Jumpingtext(window, (string)"Start", textsize, sf::Vector2f(100.0f, 0.0f), sf::Vector3i(253, 227, 155), 580, (float) 8 , 1);

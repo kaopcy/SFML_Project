@@ -4,15 +4,18 @@ Soundhead::Soundhead()
 {
 	sharingansoundbuffer.loadFromFile("Sound/Mangekyo_sound.ogg");
 	sharinganeffect.setBuffer(sharingansoundbuffer);
+	sharinganeffect.setVolume(10);
 
 	Teleportsoundbuffer.loadFromFile("Sound/Crow_sound.wav");
 	Teleporteffect.setBuffer(Teleportsoundbuffer);
 	Teleporteffect.setVolume(50);
 	Teleportsoundbuffer2.loadFromFile("Sound/Teleport_sound.ogg");
 	Teleporteffect2.setBuffer(Teleportsoundbuffer2);
+	Teleporteffect2.setVolume(50);
 
 	MangekyoSoundbuffer.loadFromFile("Sound/sharingan_sound.ogg");
 	MangekyoEffect.setBuffer(MangekyoSoundbuffer);
+	MangekyoEffect.setVolume(10);
 
 	Deadsoundbuffer.loadFromFile("Sound/Deadeffect_sound.wav");
 	Deadeffect.setBuffer(Deadsoundbuffer);
@@ -20,6 +23,7 @@ Soundhead::Soundhead()
 
 	ThemesoungBuffer.loadFromFile("Sound/Theme_song3.wav");
 	Themesong_Song.setBuffer(ThemesoungBuffer);
+	Themesong_Song.setVolume(0);
 
 }
 

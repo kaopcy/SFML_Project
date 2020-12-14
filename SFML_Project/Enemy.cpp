@@ -1,37 +1,37 @@
 #include "Enemy.h"
-Enemy::Enemy(int texturenum, int hp, sf::Vector2u imageframe) :
+Enemy::Enemy(sf::Texture &texture2 ,sf::Texture &texture ,int texturenum, int hp, sf::Vector2u imageframe , const sf::Vector2f &firstPosition) :
 	hpmax(hp)
 {
-	this->texturecontrol(texturenum);
+
+	this->S_enemy.setTexture(texture);
+	this->explosion.setTexture(texture2);
+	this->explosion.setPosition(-4000, -4000);
+	this->explosion.setOrigin(sf::Vector2f(this->explosion.getGlobalBounds().width / 16, this->explosion.getGlobalBounds().height / 4));
+	this->explosion.setScale(3,3);
+	this->imageframe = imageframe;
 	this->animationframe = 0;
 	this->hp = hp;
-	this->currentframeexplode.x = Texplode.getSize().x / 8;
-	this->currentframeexplode.y = Texplode.getSize().y /2;
-
+	this->currentframeexplode.x = texture2.getSize().x / 8;
+	this->currentframeexplode.y = texture2.getSize().y / 2;
+	
 	this->hpRec.setFillColor(sf::Color(255, 40, 24));
-	this->explosion.setTexture(Texplode);
-	this->explosion.setPosition(-4000, -4000);
-	this->explosion.setScale(0.7,0.7);
-	this->S_enemy.setTexture(Etexture);
-	this->imageframe = imageframe;
-	this->currentframe.x = Etexture.getSize().x / imageframe.x;//ค่าคือความยาวรูปทั้งหมดหาร 3 (น่าจะเป็นค่าคงที่)
-	this->currentframe.y = Etexture.getSize().y / imageframe.y;//ค่าคือความกว้างรูปทั้งหมดหาร 3 (น่าจะเป็นค่าคงที่)
+	this->currentframe.x = texture.getSize().x / imageframe.x;//ค่าคือความยาวรูปทั้งหมดหาร 3 (น่าจะเป็นค่าคงที่)
+	this->currentframe.y = texture.getSize().y / imageframe.y;//ค่าคือความกว้างรูปทั้งหมดหาร 3 (น่าจะเป็นค่าคงที่)
 
 	this->hitbox.setSize(sf::Vector2f(currentframe));
 	this->hitbox.setFillColor(sf::Color::Transparent);
 	this->hitbox.setOutlineThickness(1);
 	this->hitbox.setOutlineColor(sf::Color::Red);
 	this->hitbox.setScale(0.6,0.6);
+	this->hitbox.setPosition(firstPosition);
 	this->S_enemy.setScale(hitbox.getScale());
 
 	if (!Deadsoundbuffer.loadFromFile("Sound/Deadeffect_sound.wav"))
 	{
 		this->Deadsoundbuffer.loadFromFile("Sound/Deadeffect_sound.wav");
-
 	}
 	this->Deadeffect.setBuffer(this->Deadsoundbuffer);
 	this->Deadeffect.setVolume(10);
-
 }
 
 Enemy::~Enemy()
@@ -39,16 +39,8 @@ Enemy::~Enemy()
 	
 }
 
-void Enemy::update(const float deltatime , bool &slash)
+void Enemy::update(const float deltatime , bool &slash , const float &ground )
 {
-	if (dx == 1)
-	{
-		row = 0;
-	}
-	else if (dx == -1)
-	{
-		row = 1;
-	}
 	if (!dead)
 	{
 		this->hpRec.setSize(sf::Vector2f((hitbox.getSize().x * hp) / hpmax, 10));
@@ -73,17 +65,40 @@ void Enemy::update(const float deltatime , bool &slash)
 		{
 			offsetenemyspeed -= 0.5f;
 		}
-		hitbox.move(dx * deltatime * (rand() % (200 - 100) + 100), dy);
+	}
+
+	if (!changePhases)
+	{
+		if (dx == 1)
+		{
+			row = 0;
+		}
+		else if (dx == -1)
+		{
+			row = 1;
+		}
+		if (!dead)
+		{
+			
+			hitbox.move(dx * deltatime * (rand() % (200 - 100) + 100), dy);
+		}
+		if (S_enemy.getPosition().y+S_enemy.getGlobalBounds().height >= 1000)
+		{
+			changePhases = true;
+		}
+	}
+	if (changePhases)
+	{
+		row = 0;
+		dy = 0;
 	}
 
 	if (dead)
 	{
-		
-		
 		if (!slash)
 		{
 			//playDeadSound(dead);
-			explosion.setPosition(hitbox.getPosition());
+			explosion.setPosition(getCenter());
 			explosion.setTextureRect(sf::IntRect(currentframeexplode.x * animationexplode, currentframeexplode.y * 0, currentframeexplode.x, currentframeexplode.y));
 			{
 				//Edit speed animation explode
@@ -92,7 +107,7 @@ void Enemy::update(const float deltatime , bool &slash)
 				{
 					offset2 -= 0.12;
 					animationexplode++;
-					if (animationexplode > 8) { animationexplode = 0; }
+					if (animationexplode > 8) { erase = true; }
 				}
 			}
 			lifetime -= deltatime;
@@ -102,14 +117,14 @@ void Enemy::update(const float deltatime , bool &slash)
 		{
 			if (lifetime >= lifetime / 2)
 			{
-				explosion.setPosition(hitbox.getPosition());
+				explosion.setPosition(getCenter());
 				explosion.setTextureRect(sf::IntRect(currentframeexplode.x * animationexplode, currentframeexplode.y * 1, currentframeexplode.x, currentframeexplode.y));
 				
 
 			}
 			else
 			{
-				explosion.setPosition(hitbox.getPosition());
+				explosion.setPosition(getCenter());
 				explosion.setTextureRect(sf::IntRect(currentframeexplode.x * animationexplode, currentframeexplode.y * 0, currentframeexplode.x, currentframeexplode.y));
 			}
 
@@ -135,7 +150,7 @@ void Enemy::draw(sf::RenderWindow& window)
 	if (!dead)
 	{
 		window.draw(S_enemy);
-		//window.draw(hitbox);
+		window.draw(hitbox);
 		window.draw(hpRec);
 	}
 	
@@ -159,10 +174,7 @@ void Enemy::texturecontrol(int num)
 {
 	if (num == 1)
 	{
-		Texplode.loadFromFile("Explode/Explode.png");
-		Texplode.setSmooth(true);
-		Etexture.loadFromFile("Enemy/Enemy2.png");
-		Etexture.setSmooth(true);
+		
 	}
 }
 

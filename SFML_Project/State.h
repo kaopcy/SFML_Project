@@ -15,6 +15,7 @@ public:
 	virtual void update(const float &deltatime , sf::Event& evnt) = 0;
 	virtual void endstate() = 0;
 	virtual void checkforquit(); 
+	const bool& isEnd() const;
 	const bool& getquit() const;
 	const bool& getaddstate() const;
 
@@ -23,6 +24,7 @@ protected:
 	std::vector<sf::Texture> textures;
 	bool quit = false;
 	bool addstate = false;
+	bool gameOver = false;
 
 };
 

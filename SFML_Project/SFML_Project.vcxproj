@@ -159,6 +159,7 @@
     <ClCompile Include="colision.cpp" />
     <ClCompile Include="Defination.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="ExplodeEffect.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Gamestate.cpp" />
     <ClCompile Include="Mainmenustate.cpp" />
@@ -181,6 +182,7 @@
     <ClInclude Include="colision.h" />
     <ClInclude Include="Defination.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="ExplodeEffect.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Gamestate.h" />
     <ClInclude Include="Mainmenustate.h" />
